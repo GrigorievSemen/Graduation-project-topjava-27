@@ -28,7 +28,6 @@ public class Menu extends AbstractBaseEntity {
 
     @JoinColumn(name = "dish_id", nullable = false)
     @ManyToOne(fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     private Dish dish;
 
