@@ -1,4 +1,5 @@
-##  Technical requirement:
+## Technical requirement:
+
 Design and implement a REST API using Hibernate/Spring/SpringMVC (Spring-Boot preferred!) **without frontend**.
 
 The task is:
@@ -16,31 +17,36 @@ Build a voting system for deciding where to have lunch.
 
 Each restaurant provides a new menu each day.
 
-As a result, provide a link to github repository. It should contain the code, README.md with API documentation and couple curl commands to test it (**better - link to Swagger**).
+As a result, provide a link to github repository. It should contain the code, README.md with API documentation and
+couple curl commands to test it (**better - link to Swagger**).
 
 -----------------------------
 P.S.: Make sure everything works with latest version that is on github :)  
 P.P.S.: Assume that your API will be used by a frontend developer to build frontend on top of that.
 
 ## Техническое задание:
-Разработайте и внедрите REST API с использованием Hibernate/Spring/SpringMVC (предпочтительнее Spring-Boot!) **без Frontend части**.
+
+Разработайте и внедрите REST API с использованием Hibernate/Spring/SpringMVC (предпочтительнее Spring-Boot!) **без
+Frontend части**.
 
 Задача состоит в том, чтобы:
 
 Создать систему голосования для принятия решения о том, где пообедать.
 
 * 2 типа пользователей: администратор и обычные пользователи
-* Администратор может ввести ресторан и его обеденное меню на выбранный день (обычно 2-5 блюд, просто название блюда и стоимость).
+* Администратор может ввести ресторан и его обеденное меню на выбранный день (обычно 2-5 блюд, просто название блюда и
+  стоимость).
 * Меню меняется каждый день (администраторы делают обновления)
 * Пользователи могут проголосовать за ресторан, в котором они хотят пообедать сегодня
 * Для каждого пользователя учитывается только один голос
 * Если пользователь проголосует снова в тот же день то:
-  - Если это произойдет до 11:00, мы предполагаем, что он передумал.
-  - Если это после 11:00, то уже слишком поздно, голосование изменить нельзя
+    - Если это произойдет до 11:00, мы предполагаем, что он передумал.
+    - Если это после 11:00, то уже слишком поздно, голосование изменить нельзя
 
 Каждый ресторан предлагает новое меню каждый день.
 
-В результате предоставьте ссылку на репозиторий github. Он должен содержать код, README.md с документацией API и парой команд curl для его тестирования (**лучше - ссылка на Swagger**).
+В результате предоставьте ссылку на репозиторий github. Он должен содержать код, README.md с документацией API и парой
+команд curl для его тестирования (**лучше - ссылка на Swagger**).
 
 -----------------------------
 P.S.: Убедитесь, что все работает с последней версией, которая есть на github :)

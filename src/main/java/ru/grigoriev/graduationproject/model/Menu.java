@@ -17,12 +17,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "menus", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "dish_id", "date_time"}, name = "menu_unique_restaurant_dish_datetime_idx")})
+@Table(name = "menu", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "dish_id"}, name = "menu_unique_restaurant_dish_idx")})
 public class Menu extends AbstractBaseEntity {
 
-    @Column(name = "price", nullable = false)
-    @Min(value = 1, message = "Price should be over 1")
-    private double price;
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
+    private Restaurant restaurant;
 
     @JoinColumn(name = "dish_id", nullable = false)
     @ManyToOne(fetch = FetchType.EAGER)
@@ -30,11 +32,9 @@ public class Menu extends AbstractBaseEntity {
     @NotNull
     private Dish dish;
 
-    @JoinColumn(name = "restaurant_id", nullable = false)
-    @ManyToOne(fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
-    private Restaurant restaurant;
+    @Column(name = "price", nullable = false)
+    @Min(value = 1, message = "Price should be over 1")
+    private double price;
 
     @Column(name = "date_time", nullable = false)
     @NotNull
