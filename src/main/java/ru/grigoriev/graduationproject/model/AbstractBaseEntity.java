@@ -19,7 +19,6 @@ public abstract class AbstractBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     protected Integer id;
 
     public boolean isNew() {
