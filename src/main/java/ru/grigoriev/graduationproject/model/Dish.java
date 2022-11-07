@@ -11,7 +11,6 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"}, name = " dish_unique_name_idx")})
