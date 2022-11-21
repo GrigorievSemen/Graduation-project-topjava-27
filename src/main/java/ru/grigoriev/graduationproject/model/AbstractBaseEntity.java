@@ -4,9 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
@@ -15,11 +18,19 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public abstract class AbstractBaseEntity {
-    public static final int START_SEQ = 100000;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
+
+    @Column(name = "created_at", columnDefinition = "timestamp default now()", nullable = false, updatable = false)
+    @NotNull
+    @CreatedDate
+    protected Date created_at = new Date();
+
+    @Column(name = "updated_at", columnDefinition = "timestamp default now()", nullable = false, updatable = false)
+    @LastModifiedDate
+    protected Date updated_at = new Date();
 
     public boolean isNew() {
         return this.id == null;

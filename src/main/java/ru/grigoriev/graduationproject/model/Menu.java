@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "menu", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "dish_id"}, name = "menu_unique_restaurant_dish_idx")})
-public class Menu extends AbstractBaseEntity {
+public class Menu extends AbstractNamedEntity {
 
     @JoinColumn(name = "restaurant_id", nullable = false)
     @ManyToOne(fetch = FetchType.EAGER)
@@ -34,8 +34,4 @@ public class Menu extends AbstractBaseEntity {
     @Column(name = "price", nullable = false)
     @Min(value = 1, message = "Price should be over 1")
     private double price;
-
-    @Column(name = "date_time", nullable = false)
-    @NotNull
-    private LocalDateTime dateTime;
 }

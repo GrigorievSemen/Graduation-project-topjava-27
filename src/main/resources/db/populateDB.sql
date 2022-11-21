@@ -12,16 +12,16 @@ DELETE
 FROM restaurant;
 
 INSERT INTO users (name, email, password)
-VALUES ('Admin', 'admin@yandex.com', 'admin'), -- 0
-       ('User1', 'user1@yandex.ru', 'user1'),  -- 1
-       ('User2', 'user2@yandex.com', 'user2'), -- 2
-       ('User3', 'user3@yandex.com', 'user3'); -- 3
+VALUES ('Admin', 'admin@yandex.com', '$2a$10$9jxLMntUjcBgM4Rb.bMAzO3.nrd2ChpdAnVQdblF8gfYYPxl.UVc2'), -- 0 password admin
+       ('User1', 'user1@yandex.ru', '$2a$10$.NUmdJBMsx4OzbxZPnPpfeYSCw9kiek3lhvjp9nCjxugVG0ioVwf.'),  -- 1 password test1
+       ('User2', 'user2@yandex.com', '$2a$10$/yRivUr0N8X23Uz1ASSNxOrCzupdmBdO0o.xBp4GQKoLeli1vDcXi'), -- 2 password test2
+       ('User3', 'user3@yandex.com', '$2a$10$OnGR.07a9JJxEdpKrHcU0OY1voZu//GW7IJ4vP1qp.lv8Ik3.15ee'); -- 3 password test3
 
 INSERT INTO user_roles (role, user_id)
-VALUES ('ADMIN', 1),
-       ('USER', 2),
-       ('USER', 3),
-       ('USER', 4);
+VALUES ('ROLE_ADMIN', 1),
+       ('ROLE_USER', 2),
+       ('ROLE_USER', 3),
+       ('ROLE_USER', 4);
 
 INSERT INTO dish (name)
 VALUES ('Chicken'), -- 1

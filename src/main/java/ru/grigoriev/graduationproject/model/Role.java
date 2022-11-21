@@ -1,6 +1,5 @@
 package ru.grigoriev.graduationproject.model;
 
 public enum Role {
-    USER,
-    ADMIN
+   ROLE_ADMIN,ROLE_USER;
 }

@@ -9,10 +9,8 @@ import org.springframework.util.CollectionUtils;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
-import java.util.Date;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -24,23 +22,23 @@ import java.util.Set;
 @Table(name = "users")
 public class User extends AbstractNamedEntity {
 
+    @NotBlank
     @Column(name = "email", nullable = false, unique = true)
     @Email
-    @NotBlank
     @Size(max = 128)
     private String email;
 
-    @Column(name = "password", nullable = false)
     @NotBlank
     @Size(min = 5, max = 128)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
     private boolean enabled = true;
 
-    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
-    @NotNull
-    private Date registered = new Date();
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, columnDefinition = "ACTIVE")
+    protected Status status;
 
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
@@ -49,18 +47,17 @@ public class User extends AbstractNamedEntity {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    public User(Integer id, String name, String email, String password, boolean enabled, Date registered, Collection<Role> roles) {
+    public User(Integer id, String name, String email, String password, boolean enabled, Collection<Role> roles) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.enabled = enabled;
-        this.registered = registered;
         setRoles(roles);
     }
 
-    public void setRoles(Collection<Role> roles) {
-        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
+    public void setRoles(Collection<Role> usersRoles) {
+        this.roles = CollectionUtils.isEmpty(usersRoles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(usersRoles);
     }
 
     @Override

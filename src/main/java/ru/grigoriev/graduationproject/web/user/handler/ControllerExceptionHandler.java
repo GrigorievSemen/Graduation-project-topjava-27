@@ -47,8 +47,8 @@ public class ControllerExceptionHandler {
     }
 
     private String createErrorMessage(Exception exception) {
-        final String message = exception.getMessage();
-        log.error(ExceptionHandlerUtils.buildErrorMessage(exception));
+        final String message = ExceptionHandlerUtils.buildErrorMessage(exception);
+        log.error(message);
         return message;
     }
 }

@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id"}, name = "vote_unique_user_idx")})
-public class vote extends AbstractBaseEntity {
+public class Vote extends AbstractNamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -29,9 +29,4 @@ public class vote extends AbstractBaseEntity {
     @JoinColumn(name = "restaurant_id", nullable = false)
     @NotNull
     private Restaurant restaurant;
-
-    @Column(name = "date_time", nullable = false)
-    @NotNull
-    private LocalDateTime dateTime;
-
 }
