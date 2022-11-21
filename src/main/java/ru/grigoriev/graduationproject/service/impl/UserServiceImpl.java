@@ -65,8 +65,10 @@ public class UserServiceImpl implements UserService {
 
         result.get().setEmail(userUpdateDto.getEmail());
         result.get().setName(userUpdateDto.getNew_name());
-        UserUtil.setPassword(result.get());
+        result.get().setPassword(userUpdateDto.getNew_password());
         result.get().setUpdated_at(new Date());
+
+        UserUtil.setPassword(result.get());
         User updateUser = repository.save(result.get());
         log.info("IN update -> user: {} successfully updated",updateUser);
         return userMapper.toUserDto(updateUser);
