@@ -4,12 +4,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.grigoriev.graduationproject.dto.UserDto;
+import ru.grigoriev.graduationproject.dto.UserUpdateDto;
 import ru.grigoriev.graduationproject.mapper.UserMapper;
+import ru.grigoriev.graduationproject.model.Status;
 import ru.grigoriev.graduationproject.model.User;
+import ru.grigoriev.graduationproject.repository.UserRepository;
 import ru.grigoriev.graduationproject.service.UserService;
 import ru.grigoriev.graduationproject.web.user.constant.Constant;
+
+import javax.validation.Valid;
 
 @Slf4j
 @RestController
@@ -41,10 +49,9 @@ public class UserRestController {
     }
 
     @PostMapping(value = "/update")
-    public ResponseEntity<UserDto> updateUser(@RequestParam("name") String name) {
-        log.info("IN updateUser");
-        User user = service.findByUserName(name);
-        UserDto result = userMapper.toUserDto(user);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseEntity<UserDto> update(@RequestBody @Valid UserUpdateDto userUpdateDto) {
+        log.info("IN update");
+        UserDto result = service.update(userUpdateDto);
+        return ResponseEntity.ok(result);
     }
 }

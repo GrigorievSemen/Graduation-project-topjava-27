@@ -37,4 +37,4 @@ management:
 jwt:
   token:
     secret: jwtappdemo
-    expired: 3600000
+    expired: 36000000
