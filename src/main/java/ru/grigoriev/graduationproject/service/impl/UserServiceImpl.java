@@ -1,6 +1,7 @@
 package ru.grigoriev.graduationproject.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,10 +33,10 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final AuthenticationManager authenticationManager;
 
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, UserMapper userMapper, UserUtil userUtil, AuthenticationManager authenticationManager1) {
+    public UserServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager, UserMapper userMapper, UserUtil userUtil, AuthenticationManager authenticationManager1) {
         this.repository = userRepository;
         this.userMapper = userMapper;
-        this.authenticationManager = authenticationManager1;
+        this.authenticationManager = authenticationManager;
     }
 
     @Transactional

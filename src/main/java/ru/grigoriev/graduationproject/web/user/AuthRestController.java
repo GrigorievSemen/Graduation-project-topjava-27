@@ -1,5 +1,6 @@
 package ru.grigoriev.graduationproject.web.user;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,16 +29,11 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = Constant.VERSION_URL + "/auth",
         produces = MediaType.APPLICATION_JSON_VALUE)
+@RequiredArgsConstructor
 public class AuthRestController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
-
-    public AuthRestController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService) {
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.userService = userService;
-    }
 
     @PostMapping("/login")
     public ResponseEntity<Map<Object, Object>> login(@RequestBody AuthenticationRequestDto requestDto) {
@@ -45,6 +41,8 @@ public class AuthRestController {
         String name = requestDto.getName();
 
         try {
+            System.err.println(name);
+            System.err.println(requestDto.getPassword());
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(name, requestDto.getPassword()));
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid name or password");
