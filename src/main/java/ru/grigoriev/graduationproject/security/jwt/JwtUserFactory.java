@@ -15,7 +15,7 @@ public final class JwtUserFactory {
     public JwtUserFactory() {
     }
 
-    public static JwtUser create(User user){
+    public static JwtUser create(User user) {
         return new JwtUser(
                 user.getId(),
                 user.getName(),
@@ -27,7 +27,7 @@ public final class JwtUserFactory {
         );
     }
 
-    private static List<GrantedAuthority> mapToGrantedAuthority(List<Role> userRoles){
+    private static List<GrantedAuthority> mapToGrantedAuthority(List<Role> userRoles) {
         return userRoles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.name()))
                 .collect(Collectors.toList());

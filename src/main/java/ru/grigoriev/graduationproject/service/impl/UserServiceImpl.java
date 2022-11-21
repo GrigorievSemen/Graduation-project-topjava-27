@@ -1,12 +1,11 @@
 package ru.grigoriev.graduationproject.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.grigoriev.graduationproject.dto.UserDto;
@@ -28,81 +27,82 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final UserMapper userMapper;
     private final AuthenticationManager authenticationManager;
 
-    public UserServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager, UserMapper userMapper, UserUtil userUtil, AuthenticationManager authenticationManager1) {
-        this.repository = userRepository;
-        this.userMapper = userMapper;
-        this.authenticationManager = authenticationManager;
-    }
-
     @Transactional
     @Override
     public UserDto save(User user) {
 
-        UserUtil.setPassword(user);
+        UserUtil.setPasswordWithEncoder(user);
         user.setRoles(Collections.singleton(Role.ROLE_USER));
         user.setStatus(Status.ACTIVE);
 
         User registerUser = repository.save(user);
-        log.info("IN register -> user: {} successfully registered",registerUser);
+        log.info("IN register -> user: {} successfully registered", registerUser);
         return userMapper.toUserDto(registerUser);
     }
 
+    @Transactional
     @Override
     public UserDto update(UserUpdateDto userUpdateDto) {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userUpdateDto.getOld_name(),userUpdateDto.getOld_password()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userUpdateDto.getOld_name(), userUpdateDto.getOld_password()));
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid name or password");
         }
 
         Optional<User> result = Optional.ofNullable(repository.findByName(userUpdateDto.getOld_name())
-                .orElseThrow( () ->
+                .orElseThrow(() ->
                         new NotFoundException("User does not exist in the database")));
 
         result.get().setEmail(userUpdateDto.getEmail());
         result.get().setName(userUpdateDto.getNew_name());
-        UserUtil.setPassword(result.get());
+        result.get().setPassword(userUpdateDto.getNew_password());
         result.get().setUpdated_at(new Date());
+
+        UserUtil.setPasswordWithEncoder(result.get());
+
         User updateUser = repository.save(result.get());
-        log.info("IN update -> user: {} successfully updated",updateUser);
+        log.info("IN update -> user: {} successfully updated", updateUser);
         return userMapper.toUserDto(updateUser);
     }
 
     @Override
     public List<User> getAll() {
         List<User> result = repository.findAll();
-        log.info("IN getAll -> {} users found",result.size());
+        log.info("IN getAll -> {} users found", result.size());
         return result;
     }
 
     @Override
     public User findByUserName(String name) {
         Optional<User> result = Optional.ofNullable(repository.findByName(name)
-                .orElseThrow( () ->
+                .orElseThrow(() ->
                         new NotFoundException("User does not exist in the database")));
 
-        log.info("IN findByUserName -> user: {} found by username: {}",result,name);
+        log.info("IN findByUserName -> user: {} found by username: {}", result, name);
         return result.get();
     }
 
     @Override
     public UserDto findBiId(Integer id) {
         Optional<User> user = Optional.ofNullable(repository.findById(id)
-                .orElseThrow( () ->
-                    new NotFoundException("User does not exist in the database")));
+                .orElseThrow(() ->
+                        new NotFoundException("User does not exist in the database")));
         UserDto result = userMapper.toUserDto(user.get());
-        log.info("IN findBiId -> user: {} found by id: {}",user,id);
+        log.info("IN findBiId -> user: {} found by id: {}", user, id);
         return result;
     }
 
+    @Transactional
     @Override
     public void delete(Integer id) {
         repository.deleteById(id);
-        log.info("In delete -> user with id: {} successfully deleted",id);
+        log.info("In delete -> user with id: {} successfully deleted", id);
     }
 }

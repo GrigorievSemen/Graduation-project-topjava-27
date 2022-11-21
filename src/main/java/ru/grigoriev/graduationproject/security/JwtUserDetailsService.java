@@ -2,8 +2,6 @@ package ru.grigoriev.graduationproject.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,25 +12,20 @@ import ru.grigoriev.graduationproject.repository.UserRepository;
 import ru.grigoriev.graduationproject.security.jwt.JwtUser;
 import ru.grigoriev.graduationproject.security.jwt.JwtUserFactory;
 
-
 import java.util.Optional;
 
 @Service
 @Slf4j
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class JwtUserDetailsService implements UserDetailsService {
 
     private final UserRepository repository;
-    @Autowired
-    public JwtUserDetailsService(UserRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
 
         Optional<User> user = Optional.ofNullable(repository.findByName(name)
-                .orElseThrow( () ->
+                .orElseThrow(() ->
                         new NotFoundException("User does not exist in the database")));
 
         JwtUser jwtUser = JwtUserFactory.create(user.get());

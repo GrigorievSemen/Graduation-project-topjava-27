@@ -1,6 +1,8 @@
 package ru.grigoriev.graduationproject.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.grigoriev.graduationproject.model.Role;
 
 import java.text.SimpleDateFormat;
@@ -23,6 +25,6 @@ public class UserDto {
     }
 
     public void setUpdated_at(Date date) {
-        this.updated_at =  format.format(date);
+        this.updated_at = format.format(date);
     }
 }
