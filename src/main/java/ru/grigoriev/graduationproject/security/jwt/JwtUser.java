@@ -31,7 +31,7 @@ public class JwtUser implements UserDetails {
     }
 
     @JsonIgnore
-    public int getId(){
+    public int getId() {
         return id;
     }
 

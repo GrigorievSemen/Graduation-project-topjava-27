@@ -12,10 +12,13 @@ DELETE
 FROM restaurant;
 
 INSERT INTO users (name, email, password)
-VALUES ('Admin', 'admin@yandex.com', '$2a$10$9jxLMntUjcBgM4Rb.bMAzO3.nrd2ChpdAnVQdblF8gfYYPxl.UVc2'), -- 0 password admin
-       ('User1', 'user1@yandex.ru', '$2a$10$.NUmdJBMsx4OzbxZPnPpfeYSCw9kiek3lhvjp9nCjxugVG0ioVwf.'),  -- 1 password test1
-       ('User2', 'user2@yandex.com', '$2a$10$/yRivUr0N8X23Uz1ASSNxOrCzupdmBdO0o.xBp4GQKoLeli1vDcXi'), -- 2 password test2
-       ('User3', 'user3@yandex.com', '$2a$10$OnGR.07a9JJxEdpKrHcU0OY1voZu//GW7IJ4vP1qp.lv8Ik3.15ee'); -- 3 password test3
+VALUES ('Admin', 'admin@yandex.com',
+        '$2a$10$9jxLMntUjcBgM4Rb.bMAzO3.nrd2ChpdAnVQdblF8gfYYPxl.UVc2'),                             -- 0 password admin
+       ('User1', 'user1@yandex.ru', '$2a$10$.NUmdJBMsx4OzbxZPnPpfeYSCw9kiek3lhvjp9nCjxugVG0ioVwf.'), -- 1 password test1
+       ('User2', 'user2@yandex.com',
+        '$2a$10$/yRivUr0N8X23Uz1ASSNxOrCzupdmBdO0o.xBp4GQKoLeli1vDcXi'),                             -- 2 password test2
+       ('User3', 'user3@yandex.com',
+        '$2a$10$OnGR.07a9JJxEdpKrHcU0OY1voZu//GW7IJ4vP1qp.lv8Ik3.15ee'); -- 3 password test3
 
 INSERT INTO user_roles (role, user_id)
 VALUES ('ROLE_ADMIN', 1),
