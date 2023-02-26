@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.grigoriev.graduationproject.web.user.request.AuthenticationRequest;
 import ru.grigoriev.graduationproject.dto.UserDto;
 import ru.grigoriev.graduationproject.model.User;
 import ru.grigoriev.graduationproject.security.jwt.JwtTokenProvider;
 import ru.grigoriev.graduationproject.service.AuthUserService;
 import ru.grigoriev.graduationproject.web.user.constant.Constant;
+import ru.grigoriev.graduationproject.web.user.request.AuthenticationRequest;
 
 import javax.validation.Valid;
 import java.util.ArrayList;

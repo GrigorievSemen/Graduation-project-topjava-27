@@ -5,15 +5,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.grigoriev.graduationproject.dto.MenuDto;
-import ru.grigoriev.graduationproject.dto.RestaurantDto;
-import ru.grigoriev.graduationproject.model.Menu;
-import ru.grigoriev.graduationproject.model.Restaurant;
 import ru.grigoriev.graduationproject.service.MenuService;
-import ru.grigoriev.graduationproject.service.RestaurantService;
 import ru.grigoriev.graduationproject.web.user.constant.Constant;
-import ru.grigoriev.graduationproject.web.user.request.create.MenuCreateRequest;
-import ru.grigoriev.graduationproject.web.user.request.delete.RestaurantDeleteRequest;
-import ru.grigoriev.graduationproject.web.user.request.update.RestaurantUpdateRequest;
+import ru.grigoriev.graduationproject.web.user.request.update.MenuUpdateRequest;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -31,41 +25,48 @@ public class MenuRestController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<MenuDto> createMenu(@RequestBody MenuCreateRequest menu) {
+    public ResponseEntity<List<MenuDto>> createMenu(@RequestBody @Valid MenuDto... menuDto) {
         log.info("IN createMenu");
-        MenuDto result = service.create(menu);
+        List<MenuDto> result = service.create(menuDto);
         return ResponseEntity.ok(result);
     }
 
-//    @GetMapping(value = "/{id}")
-//    public ResponseEntity<RestaurantDto> getRestaurantById(@PathVariable(name = "id") int id) {
-//        log.info("IN getRestaurantById");
-//        return  ResponseEntity.ok(service.findBiId(id));
-//    }
-//
-//    @GetMapping(value = "/")
-//    public ResponseEntity<RestaurantDto> getRestaurantByName(@RequestParam(value = "name", required = false) String name) {
-//        log.info("IN getRestaurantByName");
-//        return  ResponseEntity.ok(service.findByDishName(name));
-//    }
-//
-//    @GetMapping(value = "/all")
-//    public ResponseEntity<List<RestaurantDto>> getAll() {
-//        log.info("IN getAll");
-//        return  ResponseEntity.ok(service.getAll());
-//    }
-//
-//    @PostMapping(value = "/update")
-//    public ResponseEntity<RestaurantDto> updateRestaurant(@RequestBody @Valid RestaurantUpdateRequest restaurantUpdateRequest) {
-//        log.info("IN updateRestaurant");
-//        RestaurantDto result = service.update(restaurantUpdateRequest);
-//        return ResponseEntity.ok(result);
-//    }
-//
-//    @PostMapping(value = "/delete")
-//    public ResponseEntity<String> deleteRestaurant(@RequestBody @Valid RestaurantDeleteRequest restaurantDeleteRequest) {
-//        log.info("IN deleteRestaurant");
-//        service.delete(restaurantDeleteRequest);
-//        return ResponseEntity.ok("Restaurant " + restaurantDeleteRequest.getName() + " successfully deleted.");
-//    }
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<MenuDto> getMenuById(@PathVariable(name = "id") int id) {
+        log.info("IN getMenuById");
+        return ResponseEntity.ok(service.findBiId(id));
+    }
+
+    @GetMapping(value = "/restaurant/{id}")
+    public ResponseEntity<List<MenuDto>> getMenuByRestaurantId(@PathVariable(name = "id") int id) {
+        log.info("IN getMenuByRestaurantId");
+        return ResponseEntity.ok(service.findMenuByRestaurantId(id));
+    }
+
+    @GetMapping(value = "/all")
+    public ResponseEntity<List<MenuDto>> getAll() {
+        log.info("IN getAll");
+        return ResponseEntity.ok(service.getAll());
+    }
+
+    @PostMapping(value = "/update")
+    public ResponseEntity<List<MenuDto>> updateMenu(@RequestBody @Valid MenuUpdateRequest... menuUpdateRequest) {
+        log.info("IN updateMenu");
+        List<MenuDto> result = service.update(menuUpdateRequest);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping(value = "/delete/{id}")
+    public ResponseEntity<String> deleteMenuById(@PathVariable(name = "id") int id) {
+        log.info("IN deleteMenuById");
+        service.deleteMenuById(id);
+        return ResponseEntity.ok("Menu with id = " + id + " successfully deleted.");
+    }
+
+    @PostMapping(value = "/delete_by_restaurant/{id}")
+    public ResponseEntity<String> deleteMenuByRestaurantId(@PathVariable(name = "id") int id) {
+        log.info("IN deleteMenuByRestaurantId");
+        service.deleteMenuByRestaurantId(id);
+        return ResponseEntity.ok("Menu with restaurant_id = " + id + " successfully deleted.");
+    }
 }

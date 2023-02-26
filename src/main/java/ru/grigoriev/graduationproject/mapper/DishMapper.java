@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface DishMapper {
     @Mappings({
-            @Mapping(target="id", source="id")
+            @Mapping(target = "id", source = "id")
     })
     DishDto toDto(Dish dish);
 

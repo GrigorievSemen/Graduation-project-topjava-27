@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.grigoriev.graduationproject.model.User;
 
 @Component
-public class UserUtil  {
+public class UserUtil {
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public static void setPasswordWithEncoder(User user) {

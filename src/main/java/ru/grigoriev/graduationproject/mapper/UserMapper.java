@@ -1,9 +1,7 @@
 package ru.grigoriev.graduationproject.mapper;
 
 import org.mapstruct.Mapper;
-import ru.grigoriev.graduationproject.dto.DishDto;
 import ru.grigoriev.graduationproject.dto.UserDto;
-import ru.grigoriev.graduationproject.model.Dish;
 import ru.grigoriev.graduationproject.model.User;
 
 import java.util.List;

@@ -9,9 +9,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.grigoriev.graduationproject.web.user.request.delete.UserDeleteRequest;
 import ru.grigoriev.graduationproject.dto.UserDto;
-import ru.grigoriev.graduationproject.web.user.request.update.UserUpdateRequest;
 import ru.grigoriev.graduationproject.exception.NotFoundException;
 import ru.grigoriev.graduationproject.mapper.UserMapper;
 import ru.grigoriev.graduationproject.model.User;
@@ -19,10 +17,10 @@ import ru.grigoriev.graduationproject.repository.UserRepository;
 import ru.grigoriev.graduationproject.security.jwt.JwtUser;
 import ru.grigoriev.graduationproject.service.UserService;
 import ru.grigoriev.graduationproject.util.UserUtil;
+import ru.grigoriev.graduationproject.web.user.request.delete.UserDeleteRequest;
+import ru.grigoriev.graduationproject.web.user.request.update.UserUpdateRequest;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 

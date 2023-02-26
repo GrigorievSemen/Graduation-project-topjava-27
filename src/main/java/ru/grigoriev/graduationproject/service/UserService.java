@@ -1,9 +1,9 @@
 package ru.grigoriev.graduationproject.service;
 
-import ru.grigoriev.graduationproject.web.user.request.delete.UserDeleteRequest;
 import ru.grigoriev.graduationproject.dto.UserDto;
-import ru.grigoriev.graduationproject.web.user.request.update.UserUpdateRequest;
 import ru.grigoriev.graduationproject.model.User;
+import ru.grigoriev.graduationproject.web.user.request.delete.UserDeleteRequest;
+import ru.grigoriev.graduationproject.web.user.request.update.UserUpdateRequest;
 
 import java.util.List;
 

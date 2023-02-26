@@ -4,13 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.grigoriev.graduationproject.web.user.request.delete.UserDeleteRequest;
 import ru.grigoriev.graduationproject.dto.UserDto;
-import ru.grigoriev.graduationproject.web.user.request.update.UserUpdateRequest;
 import ru.grigoriev.graduationproject.mapper.UserMapper;
 import ru.grigoriev.graduationproject.model.User;
 import ru.grigoriev.graduationproject.service.UserService;
 import ru.grigoriev.graduationproject.web.user.constant.Constant;
+import ru.grigoriev.graduationproject.web.user.request.delete.UserDeleteRequest;
+import ru.grigoriev.graduationproject.web.user.request.update.UserUpdateRequest;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -33,7 +33,7 @@ public class UserRestController {
     public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") int id) {
         log.info("IN getUserById");
         UserDto result = service.findBiId(id);
-        return  ResponseEntity.ok(result);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping(value = "/")
@@ -41,13 +41,13 @@ public class UserRestController {
         log.info("IN getUserByUserName");
         User user = service.findByUserName(name);
         UserDto result = userMapper.toUserDto(user);
-        return  ResponseEntity.ok(result);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping(value = "/all")
     public ResponseEntity<List<UserDto>> getAll() {
         log.info("IN getAll");
-        return  ResponseEntity.ok(service.getAll());
+        return ResponseEntity.ok(service.getAll());
     }
 
     @PostMapping(value = "/update")

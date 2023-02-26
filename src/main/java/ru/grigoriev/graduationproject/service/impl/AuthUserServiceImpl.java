@@ -44,6 +44,7 @@ public class AuthUserServiceImpl implements AuthUserService {
         log.info("IN findByUserName -> user: {} found by username: {}", result, name);
         return result;
     }
+
     private User getUserByName(String name) {
         Optional<User> result = Optional.ofNullable(repository.findByName(name)
                 .orElseThrow(() ->
