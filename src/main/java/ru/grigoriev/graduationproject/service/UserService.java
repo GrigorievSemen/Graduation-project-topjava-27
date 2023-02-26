@@ -1,22 +1,21 @@
 package ru.grigoriev.graduationproject.service;
 
+import ru.grigoriev.graduationproject.web.user.request.delete.UserDeleteRequest;
 import ru.grigoriev.graduationproject.dto.UserDto;
-import ru.grigoriev.graduationproject.dto.UserUpdateDto;
+import ru.grigoriev.graduationproject.web.user.request.update.UserUpdateRequest;
 import ru.grigoriev.graduationproject.model.User;
 
 import java.util.List;
 
 public interface UserService {
 
-    UserDto save(User user);
+    UserDto update(UserUpdateRequest userUpdateRequest);
 
-    UserDto update(UserUpdateDto userUpdateDto);
-
-    List<User> getAll();
+    List<UserDto> getAll();
 
     User findByUserName(String name);
 
     UserDto findBiId(Integer id);
 
-    void delete(Integer id);
+    void delete(UserDeleteRequest userDeleteRequest);
 }

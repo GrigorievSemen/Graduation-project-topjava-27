@@ -35,7 +35,7 @@ CREATE TABLE dish
     updated_at TIMESTAMP    DEFAULT now()    NOT NULL,
     status     VARCHAR(255) DEFAULT 'ACTIVE' NOT NULL
 );
-CREATE UNIQUE INDEX dish_unique_name_idx ON dish (name);
+CREATE UNIQUE INDEX dish_unique_dish_idx ON dish (name);
 
 CREATE TABLE restaurant
 (
@@ -45,7 +45,7 @@ CREATE TABLE restaurant
     updated_at TIMESTAMP    DEFAULT now()    NOT NULL,
     status     VARCHAR(255) DEFAULT 'ACTIVE' NOT NULL
 );
-CREATE UNIQUE INDEX restaurant_unique_name_idx ON restaurant (name);
+CREATE UNIQUE INDEX restaurant_unique_restaurant_idx ON restaurant (name);
 
 CREATE TABLE vote
 (
@@ -58,7 +58,7 @@ CREATE TABLE vote
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX vote_unique_user_idx ON vote (user_id);
+CREATE UNIQUE INDEX vote_unique_vote_idx ON vote (user_id);
 
 CREATE TABLE menu
 (
@@ -71,6 +71,6 @@ CREATE TABLE menu
     status        VARCHAR(255) DEFAULT 'ACTIVE' NOT NULL,
     FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX menu_unique_restaurant_dish_idx ON menu (restaurant_id, dish_id);
+-- CREATE UNIQUE INDEX menu_unique_restaurant_menu_idx ON menu (restaurant_id, dish_id);
 
 

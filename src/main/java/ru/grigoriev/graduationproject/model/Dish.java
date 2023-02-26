@@ -12,7 +12,8 @@ import javax.persistence.UniqueConstraint;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"}, name = " dish_unique_name_idx")})
+//@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"}, name = " dish_unique_name_idx")})
+@Table(name = "dish")
 public class Dish extends AbstractNamedEntity {
 
     @Override

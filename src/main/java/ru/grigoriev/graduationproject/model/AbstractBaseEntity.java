@@ -9,6 +9,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @MappedSuperclass
@@ -26,11 +28,11 @@ public abstract class AbstractBaseEntity {
     @Column(name = "created_at", columnDefinition = "timestamp default now()", nullable = false, updatable = false)
     @NotNull
     @CreatedDate
-    protected Date created_at = new Date();
+    protected LocalDateTime created_at = LocalDateTime.now();
 
-    @Column(name = "updated_at", columnDefinition = "timestamp default now()", nullable = false, updatable = false)
+    @Column(name = "updated_at", columnDefinition = "timestamp default now()", nullable = false)
     @LastModifiedDate
-    protected Date updated_at = new Date();
+    protected LocalDateTime updated_at = LocalDateTime.now();
 
     public boolean isNew() {
         return this.id == null;

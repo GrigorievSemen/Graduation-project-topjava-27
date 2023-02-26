@@ -6,10 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.awt.*;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @NoArgsConstructor
@@ -17,7 +21,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Table(name = "menu", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "dish_id"}, name = "menu_unique_restaurant_dish_idx")})
-public class Menu extends AbstractNamedEntity {
+public class Menu extends AbstractBaseEntity {
 
     @JoinColumn(name = "restaurant_id", nullable = false)
     @ManyToOne(fetch = FetchType.EAGER)

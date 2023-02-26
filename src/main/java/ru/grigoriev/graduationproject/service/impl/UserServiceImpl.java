@@ -6,24 +6,25 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.grigoriev.graduationproject.web.user.request.delete.UserDeleteRequest;
 import ru.grigoriev.graduationproject.dto.UserDto;
-import ru.grigoriev.graduationproject.dto.UserUpdateDto;
+import ru.grigoriev.graduationproject.web.user.request.update.UserUpdateRequest;
 import ru.grigoriev.graduationproject.exception.NotFoundException;
 import ru.grigoriev.graduationproject.mapper.UserMapper;
-import ru.grigoriev.graduationproject.model.Role;
-import ru.grigoriev.graduationproject.model.Status;
 import ru.grigoriev.graduationproject.model.User;
 import ru.grigoriev.graduationproject.repository.UserRepository;
+import ru.grigoriev.graduationproject.security.jwt.JwtUser;
 import ru.grigoriev.graduationproject.service.UserService;
 import ru.grigoriev.graduationproject.util.UserUtil;
 
-import java.util.Collections;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 
 @Service
 @Slf4j
@@ -33,64 +34,48 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final UserMapper userMapper;
     private final AuthenticationManager authenticationManager;
+    private final int FLAG_FOR_CHECK_BY_ID = 0;
+    private final int FLAG_FOR_CHECK_BY_NAME = 1;
+    private final int FLAG_FOR_CHECK_ADMIN_OR_NO = 2;
 
     @Transactional
     @Override
-    public UserDto save(User user) {
+    public UserDto update(UserUpdateRequest userUpdateRequest) {
+        checkPossibilities(userUpdateRequest.getOld_name(), FLAG_FOR_CHECK_BY_NAME);
+        getAuthentication(userUpdateRequest.getOld_name(), userUpdateRequest.getOld_password());
 
-        UserUtil.setPasswordWithEncoder(user);
-        user.setRoles(Collections.singleton(Role.ROLE_USER));
-        user.setStatus(Status.ACTIVE);
+        User result = getUserByName(userUpdateRequest.getOld_name());
 
-        User registerUser = repository.save(user);
-        log.info("IN register -> user: {} successfully registered", registerUser);
-        return userMapper.toUserDto(registerUser);
-    }
+        result.setEmail(userUpdateRequest.getEmail());
+        result.setName(userUpdateRequest.getNew_name());
+        result.setPassword(userUpdateRequest.getNew_password());
+        result.setUpdated_at(LocalDateTime.now());
+        UserUtil.setPasswordWithEncoder(result);
 
-    @Transactional
-    @Override
-    public UserDto update(UserUpdateDto userUpdateDto) {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userUpdateDto.getOld_name(), userUpdateDto.getOld_password()));
-        } catch (AuthenticationException e) {
-            throw new BadCredentialsException("Invalid name or password");
-        }
-
-        Optional<User> result = Optional.ofNullable(repository.findByName(userUpdateDto.getOld_name())
-                .orElseThrow(() ->
-                        new NotFoundException("User does not exist in the database")));
-
-        result.get().setEmail(userUpdateDto.getEmail());
-        result.get().setName(userUpdateDto.getNew_name());
-        result.get().setPassword(userUpdateDto.getNew_password());
-        result.get().setUpdated_at(new Date());
-
-        UserUtil.setPasswordWithEncoder(result.get());
-
-        User updateUser = repository.save(result.get());
+        User updateUser = repository.save(result);
         log.info("IN update -> user: {} successfully updated", updateUser);
         return userMapper.toUserDto(updateUser);
     }
 
     @Override
-    public List<User> getAll() {
+    public List<UserDto> getAll() {
+        checkPossibilities(null, FLAG_FOR_CHECK_ADMIN_OR_NO);
         List<User> result = repository.findAll();
         log.info("IN getAll -> {} users found", result.size());
-        return result;
+        return userMapper.toDtoList(result);
     }
 
     @Override
     public User findByUserName(String name) {
-        Optional<User> result = Optional.ofNullable(repository.findByName(name)
-                .orElseThrow(() ->
-                        new NotFoundException("User does not exist in the database")));
-
+        checkPossibilities(name, FLAG_FOR_CHECK_BY_NAME);
+        User result = getUserByName(name);
         log.info("IN findByUserName -> user: {} found by username: {}", result, name);
-        return result.get();
+        return result;
     }
 
     @Override
     public UserDto findBiId(Integer id) {
+        checkPossibilities(id, FLAG_FOR_CHECK_BY_ID);
         Optional<User> user = Optional.ofNullable(repository.findById(id)
                 .orElseThrow(() ->
                         new NotFoundException("User does not exist in the database")));
@@ -101,8 +86,60 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void delete(Integer id) {
-        repository.deleteById(id);
-        log.info("In delete -> user with id: {} successfully deleted", id);
+    public void delete(UserDeleteRequest userDeleteRequest) {
+        checkPossibilities(userDeleteRequest.getName(), FLAG_FOR_CHECK_BY_NAME);
+        getAuthentication(userDeleteRequest.getName(), userDeleteRequest.getPassword());
+        repository.deleteUserByName(userDeleteRequest.getName());
+        log.info("In delete -> user with name: {} successfully deleted", userDeleteRequest.getName());
+    }
+
+    private User getUserByName(String name) {
+        Optional<User> result = Optional.ofNullable(repository.findByName(name)
+                .orElseThrow(() ->
+                        new NotFoundException("User does not exist in the database")));
+        return result.get();
+    }
+
+    private void getAuthentication(String principal, String credentials) {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(principal, credentials));
+        } catch (AuthenticationException e) {
+            throw new BadCredentialsException("Invalid name or password");
+        }
+    }
+
+    private void checkPossibilities(Object object, int flag) {
+        JwtUser userAuth = (JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        boolean adminOrNo = userAuth.getAuthorities().stream()
+                .map(v -> v.getAuthority().equals("ROLE_ADMIN"))
+                .findFirst()
+                .orElse(false);
+
+        switch (flag) {
+            case FLAG_FOR_CHECK_BY_ID -> {
+                int idUser = (int) object;
+                if (!adminOrNo) {
+                    if (userAuth.getId() != idUser) {
+                        log.info("The user with id {} tried to get another ( {} ) user's data", userAuth.getId(), idUser);
+                        throw new NotFoundException("Users cannot receive, change data of other users");
+                    }
+                }
+            }
+            case FLAG_FOR_CHECK_BY_NAME -> {
+                String nameUser = (String) object;
+                if (!adminOrNo) {
+                    if (!userAuth.getName().equals(nameUser)) {
+                        log.info("The user with name {} tried to get another ( {} ) user's data", userAuth.getId(), nameUser);
+                        throw new NotFoundException("Users cannot receive, change data of other users");
+                    }
+                }
+            }
+            case FLAG_FOR_CHECK_ADMIN_OR_NO -> {
+                if (!adminOrNo) {
+                    log.info("The user with id {} tried to get all user's dates", userAuth.getId());
+                    throw new NotFoundException("Users cannot receive, change data of other users");
+                }
+            }
+        }
     }
 }

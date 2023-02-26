@@ -41,7 +41,9 @@ public class SecurityConfig {
                 .and()
                 .headers().frameOptions().disable()
                 .and()
-                .apply(new JwtConfigurer(jwtTokenProvider));
+                .apply(new JwtConfigurer(jwtTokenProvider))
+                .and()
+                .exceptionHandling().accessDeniedPage("/api/v1/admin/403");
 
         return http.build();
     }
