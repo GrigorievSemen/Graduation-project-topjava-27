@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.grigoriev.graduationproject.dto.MenuDto;
 import ru.grigoriev.graduationproject.service.MenuService;
 import ru.grigoriev.graduationproject.web.user.constant.Constant;
+import ru.grigoriev.graduationproject.web.user.request.menu.MenuCreateRequest;
 import ru.grigoriev.graduationproject.web.user.request.update.MenuUpdateRequest;
 
 import javax.validation.Valid;
@@ -25,9 +26,9 @@ public class MenuRestController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<List<MenuDto>> createMenu(@RequestBody @Valid MenuDto... menuDto) {
+    public ResponseEntity<List<MenuDto>> createMenu(@RequestBody @Valid MenuCreateRequest... menuCreateRequests) {
         log.info("IN createMenu");
-        List<MenuDto> result = service.create(menuDto);
+        List<MenuDto> result = service.create(menuCreateRequests);
         return ResponseEntity.ok(result);
     }
 

@@ -12,6 +12,7 @@ import ru.grigoriev.graduationproject.model.Menu;
 import ru.grigoriev.graduationproject.repository.MenuRepository;
 import ru.grigoriev.graduationproject.service.MenuService;
 import ru.grigoriev.graduationproject.util.DB;
+import ru.grigoriev.graduationproject.web.user.request.menu.MenuCreateRequest;
 import ru.grigoriev.graduationproject.web.user.request.update.MenuUpdateRequest;
 
 import java.time.LocalDateTime;
@@ -30,8 +31,8 @@ public class MenuServiceImpl implements MenuService {
 
     @Transactional
     @Override
-    public List<MenuDto> create(MenuDto... menuDto) {
-        List<MenuDto> result = Arrays.stream(menuDto)
+    public List<MenuDto> create(MenuCreateRequest... menuCreateRequests) {
+        List<MenuDto> result = Arrays.stream(menuCreateRequests)
                 .map(mapper::toMenu)
                 .map(m -> mapper.toDto(repository.save(m)))
                 .toList();
@@ -85,15 +86,21 @@ public class MenuServiceImpl implements MenuService {
     @Transactional
     @Override
     public void deleteMenuById(int id) {
-        repository.deleteById(id);
-        log.info("In deleteMenuById -> menu by id: {} successfully deleted", id);
+        if(repository.deleteById(id) > 0){
+            log.info("In deleteMenuById -> menu by id: {} successfully deleted", id);
+        } else {
+            throw new NotFoundException("Menu does not exist in the database");
+        }
     }
 
     @Transactional
     @Override
     public void deleteMenuByRestaurantId(int id) {
-        repository.deleteByRestaurantId(id);
-        log.info("In deleteMenuByRestaurantId -> menu by restaurant_id: {} successfully deleted", id);
+        if(repository.deleteByRestaurantId(id) > 0){
+            log.info("In deleteMenuByRestaurantId -> menu by restaurant_id: {} successfully deleted", id);
+        } else {
+           throw new NotFoundException("Restaurant does not exist in the database");
+        }
     }
 
     private Menu getMenuById(int id) {
