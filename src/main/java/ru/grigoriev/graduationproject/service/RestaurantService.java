@@ -14,7 +14,7 @@ public interface RestaurantService {
 
     List<RestaurantDto> getAll();
 
-    RestaurantDto findByDishName(String name);
+    RestaurantDto findByName(String name);
 
     RestaurantDto findBiId(Integer id);
 

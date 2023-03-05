@@ -29,11 +29,4 @@ public abstract class MenuMapper {
     public abstract Menu toMenu(MenuCreateRequest menuCreateRequest);
 
     public abstract List<MenuDto> toDtoList(List<Menu> menuList);
-
-//    @Mapping(target = "dish", expression = "java(dishRepository.findById(dto.getDishId()).orElseThrow(javax.persistence.EntityNotFoundException::new))")
-//    @Mapping(target = "restaurant", expression = "java(restaurantRepository.findById(dto.getRestaurantId()).orElseThrow(javax.persistence.EntityNotFoundException::new))")
-//    public abstract MenuItem toEntity(MenuItemTO dto);
-//
-
-
 }

@@ -19,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "users")
+@Table(name = "users", indexes = @Index(columnList = "name"))
 public class User extends AbstractNamedEntity {
 
     @NotBlank
@@ -41,8 +41,7 @@ public class User extends AbstractNamedEntity {
     protected Status status;
 
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "uk_user_roles")})
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),  indexes = @Index(columnList = "role"))
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;

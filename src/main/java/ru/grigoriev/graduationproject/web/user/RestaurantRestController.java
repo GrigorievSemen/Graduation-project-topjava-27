@@ -42,7 +42,7 @@ public class RestaurantRestController {
     @GetMapping(value = "/")
     public ResponseEntity<RestaurantDto> getRestaurantByName(@RequestParam(value = "name", required = false) String name) {
         log.info("IN getRestaurantByName");
-        return ResponseEntity.ok(service.findByDishName(name));
+        return ResponseEntity.ok(service.findByName(name));
     }
 
     @GetMapping(value = "/all")

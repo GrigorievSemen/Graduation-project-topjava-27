@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -12,7 +13,8 @@ import javax.persistence.UniqueConstraint;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "restaurant", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"}, name = " restaurant_unique_name_idx")})
+@Table(name = "restaurant",indexes = @Index(columnList = "name"))
+
 public class Restaurant extends AbstractNamedEntity {
 
     @Override

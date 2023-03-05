@@ -14,7 +14,7 @@ public interface DishService {
 
     List<DishDto> getAll();
 
-    DishDto findByDishName(String name);
+    DishDto findByName(String name);
 
     DishDto findBiId(Integer id);
 

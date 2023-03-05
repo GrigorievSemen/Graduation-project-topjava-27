@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "menu", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "dish_id"}, name = "menu_unique_restaurant_dish_idx")})
+@Table(name = "menu", indexes = @Index(columnList = "restaurant_id"))
 public class Menu extends AbstractBaseEntity {
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 

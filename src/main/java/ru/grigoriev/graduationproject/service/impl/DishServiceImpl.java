@@ -10,7 +10,7 @@ import ru.grigoriev.graduationproject.mapper.DishMapper;
 import ru.grigoriev.graduationproject.model.Dish;
 import ru.grigoriev.graduationproject.repository.DishRepository;
 import ru.grigoriev.graduationproject.service.DishService;
-import ru.grigoriev.graduationproject.util.DB;
+import ru.grigoriev.graduationproject.util.DB.DB;
 import ru.grigoriev.graduationproject.web.user.request.delete.DishDeleteRequest;
 import ru.grigoriev.graduationproject.web.user.request.update.DishUpdateRequest;
 
@@ -53,7 +53,7 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public DishDto findByDishName(String name) {
+    public DishDto findByName(String name) {
         Dish result = db.getDishByName(name);
         log.info("IN findByDishName -> dish: {} found by dishName: {}", result, name);
         return mapper.toDto(result);

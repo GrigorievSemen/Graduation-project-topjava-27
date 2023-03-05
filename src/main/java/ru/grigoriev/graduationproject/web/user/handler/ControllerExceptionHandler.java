@@ -10,6 +10,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.grigoriev.graduationproject.exception.NotFoundException;
+import ru.grigoriev.graduationproject.exception.VotingErrorException;
 import ru.grigoriev.graduationproject.web.user.response.BaseWebResponse;
 
 import javax.validation.ConstraintViolationException;
@@ -22,6 +23,13 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<BaseWebResponse> handleNotFoundExceptionException(@NonNull final NotFoundException exc) {
+        log.error(exc.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new BaseWebResponse(createErrorMessage(exc)));
+    }
+
+    @ExceptionHandler(VotingErrorException.class)
+    public ResponseEntity<BaseWebResponse> handleNotFoundExceptionException(@NonNull final VotingErrorException exc) {
         log.error(exc.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new BaseWebResponse(createErrorMessage(exc)));

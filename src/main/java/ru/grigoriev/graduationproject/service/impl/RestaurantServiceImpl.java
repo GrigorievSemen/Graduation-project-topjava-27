@@ -10,7 +10,7 @@ import ru.grigoriev.graduationproject.mapper.RestaurantMapper;
 import ru.grigoriev.graduationproject.model.Restaurant;
 import ru.grigoriev.graduationproject.repository.RestaurantRepository;
 import ru.grigoriev.graduationproject.service.RestaurantService;
-import ru.grigoriev.graduationproject.util.DB;
+import ru.grigoriev.graduationproject.util.DB.DB;
 import ru.grigoriev.graduationproject.web.user.request.delete.RestaurantDeleteRequest;
 import ru.grigoriev.graduationproject.web.user.request.update.RestaurantUpdateRequest;
 
@@ -53,7 +53,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public RestaurantDto findByDishName(String name) {
+    public RestaurantDto findByName(String name) {
         Restaurant result = db.getRestaurantByName(name);
         log.info("IN findByDishName -> restaurant: {} found by restaurantName: {}", result, name);
         return mapper.toDto(result);
