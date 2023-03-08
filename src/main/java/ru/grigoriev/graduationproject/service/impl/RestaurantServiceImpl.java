@@ -9,7 +9,6 @@ import ru.grigoriev.graduationproject.dto.RestaurantDto;
 import ru.grigoriev.graduationproject.mapper.RestaurantMapper;
 import ru.grigoriev.graduationproject.model.Restaurant;
 import ru.grigoriev.graduationproject.repository.RestaurantRepository;
-import ru.grigoriev.graduationproject.service.RestaurantService;
 import ru.grigoriev.graduationproject.util.DB.DB;
 import ru.grigoriev.graduationproject.web.user.request.delete.RestaurantDeleteRequest;
 import ru.grigoriev.graduationproject.web.user.request.update.RestaurantUpdateRequest;
