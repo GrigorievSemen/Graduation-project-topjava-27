@@ -13,8 +13,8 @@ import ru.grigoriev.graduationproject.repository.MenuRepository;
 import ru.grigoriev.graduationproject.repository.VoteRepository;
 import ru.grigoriev.graduationproject.service.MenuService;
 import ru.grigoriev.graduationproject.util.DB.DB;
-import ru.grigoriev.graduationproject.web.user.request.menu.MenuCreateRequest;
-import ru.grigoriev.graduationproject.web.user.request.update.MenuUpdateRequest;
+import ru.grigoriev.graduationproject.web.request.menu.MenuCreateRequest;
+import ru.grigoriev.graduationproject.web.request.update.MenuUpdateRequest;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;

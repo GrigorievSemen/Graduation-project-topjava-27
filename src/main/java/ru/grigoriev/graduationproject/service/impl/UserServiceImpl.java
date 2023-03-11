@@ -17,8 +17,8 @@ import ru.grigoriev.graduationproject.repository.UserRepository;
 import ru.grigoriev.graduationproject.security.jwt.JwtUser;
 import ru.grigoriev.graduationproject.service.UserService;
 import ru.grigoriev.graduationproject.util.UserUtil;
-import ru.grigoriev.graduationproject.web.user.request.delete.UserDeleteRequest;
-import ru.grigoriev.graduationproject.web.user.request.update.UserUpdateRequest;
+import ru.grigoriev.graduationproject.web.request.delete.UserDeleteRequest;
+import ru.grigoriev.graduationproject.web.request.update.UserUpdateRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private void checkPossibilities(Object object, int flag) {
+    public void checkPossibilities(Object object, int flag) {
         JwtUser userAuth = (JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         boolean adminOrNo = userAuth.getAuthorities().stream()
                 .map(v -> v.getAuthority().equals("ROLE_ADMIN"))

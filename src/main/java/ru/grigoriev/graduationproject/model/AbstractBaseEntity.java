@@ -1,5 +1,6 @@
 package ru.grigoriev.graduationproject.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public abstract class AbstractBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     protected Integer id;
 
     @Column(name = "created_at", columnDefinition = "timestamp default now()", nullable = false, updatable = false)

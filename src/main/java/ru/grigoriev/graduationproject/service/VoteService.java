@@ -4,9 +4,7 @@ import ru.grigoriev.graduationproject.dto.VoteDto;
 
 public interface VoteService {
 
-    String getAllRestaurant();
-
-    String getAllVote();
+    String getAllRestaurantWithMenuAndVotes();
 
     VoteDto create(int id, boolean flag);
 }

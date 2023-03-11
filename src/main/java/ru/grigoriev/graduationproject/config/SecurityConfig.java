@@ -20,7 +20,16 @@ import ru.grigoriev.graduationproject.security.jwt.JwtTokenProvider;
 public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
     private static final String ADMIN_ENDPOINT = "/api/v1/admin/**";
-    private static final String LOGIN_ENDPOINT = "/api/v1/auth/login";
+
+    private static final String[] AUTH_WHITELIST = {
+            "/api/v1/auth/registered",
+            "/api/v1/auth/login",
+            "/h2-console/**/",
+            "/swagger-resources/**",
+            "/swagger-ui/**",
+            "/v3/api-docs",
+            "/webjars/**"
+    };
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -35,7 +44,7 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(LOGIN_ENDPOINT, "/api/v1/auth/registered", "/h2-console/**/").permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()

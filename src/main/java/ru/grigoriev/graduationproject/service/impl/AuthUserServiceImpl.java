@@ -28,13 +28,12 @@ public class AuthUserServiceImpl implements AuthUserService {
     @Transactional
     @Override
     public UserDto create(User user) {
-
         UserUtil.setPasswordWithEncoder(user);
         user.setRoles(Collections.singleton(Role.ROLE_USER));
         user.setStatus(Status.ACTIVE);
 
         User registerUser = repository.save(user);
-        log.info("IN register -> user: {} successfully registered", registerUser);
+        log.info("IN create -> user: {} successfully registered", registerUser);
         return userMapper.toUserDto(registerUser);
     }
 

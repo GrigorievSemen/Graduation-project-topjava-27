@@ -1,15 +1,15 @@
-package com.edu.ulab.app.config;
+package ru.grigoriev.graduationproject.config;
 
-import com.edu.ulab.app.web.constant.SwaggerInfo;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import ru.grigoriev.graduationproject.web.constant.SwaggerInfo;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@Configuration
+@EnableSwagger2
 public class SwaggerConfig {
-    @Value("${swagger-api.version}")
+    @Value("${1.0}")
     private String swaggerApiVersion;
 
     @Bean
@@ -21,3 +21,4 @@ public class SwaggerConfig {
         );
     }
 }
+

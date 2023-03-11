@@ -17,8 +17,8 @@ import javax.validation.constraints.Size;
 @Setter
 public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
-    @NotBlank(message = "Имя не может быть пустым")
-    @Size(min = 2, max = 128, message = "Длина имени должна быть в диапазоне от 2 до 128 символов")
+    @NotBlank(message = "Name cannot be empty")
+    @Size(min = 2, max = 128, message = "Name length must be between 2 and 128 characters")
     @Column(name = "name", nullable = false, unique = true)
     protected String name;
 

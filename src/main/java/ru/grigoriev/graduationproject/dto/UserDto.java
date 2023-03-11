@@ -1,6 +1,7 @@
 package ru.grigoriev.graduationproject.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.grigoriev.graduationproject.model.Role;
@@ -11,6 +12,7 @@ import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Data
 public class UserDto {
     private static SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");

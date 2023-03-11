@@ -1,9 +1,8 @@
 package ru.grigoriev.graduationproject.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
@@ -17,19 +16,33 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Table(name = "users", indexes = @Index(columnList = "name"))
 public class User extends AbstractNamedEntity {
 
-    @NotBlank
+    public User(String name, String email, String password) {
+        super(name);
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(Integer id, String name, String email, String password, boolean enabled, Collection<Role> roles) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.enabled = enabled;
+        setRoles(roles);
+    }
+
+    @NotBlank(message = "Email cannot be empty")
     @Column(name = "email", nullable = false, unique = true)
     @Email
     @Size(max = 128)
     private String email;
 
-    @NotBlank
-    @Size(min = 5, max = 128)
+    @NotBlank(message = "Password cannot be empty")
+    @Size(min = 5, max = 128, message = "Password length must be between 5 and 128 characters")
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -41,19 +54,10 @@ public class User extends AbstractNamedEntity {
     protected Status status;
 
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),  indexes = @Index(columnList = "role"))
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), indexes = @Index(columnList = "role"))
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
-
-    public User(Integer id, String name, String email, String password, boolean enabled, Collection<Role> roles) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.enabled = enabled;
-        setRoles(roles);
-    }
 
     public void setRoles(Collection<Role> usersRoles) {
         this.roles = CollectionUtils.isEmpty(usersRoles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(usersRoles);

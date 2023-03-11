@@ -1,11 +1,7 @@
 package ru.grigoriev.graduationproject.util.DB;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.boot.MetadataBuilder;
-import org.hibernate.boot.spi.MetadataBuilderContributor;
 import org.hibernate.dialect.MySQL57Dialect;
-import org.hibernate.dialect.function.StandardSQLFunction;
-import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Component;
 import ru.grigoriev.graduationproject.exception.NotFoundException;
 import ru.grigoriev.graduationproject.model.Dish;
@@ -20,7 +16,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class DB extends MySQL57Dialect  {
+public class DB extends MySQL57Dialect {
 
     private final RestaurantRepository restaurantRepository;
     private final DishRepository dishRepository;
