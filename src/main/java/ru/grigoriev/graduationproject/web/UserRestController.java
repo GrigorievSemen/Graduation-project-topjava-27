@@ -1,5 +1,6 @@
 package ru.grigoriev.graduationproject.web;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +20,11 @@ import java.util.List;
 @RestController
 @RequestMapping(value = Constant.VERSION_URL + "/users",
         produces = MediaType.APPLICATION_JSON_VALUE)
+@RequiredArgsConstructor
 public class UserRestController {
 
     private final UserService service;
     private final UserMapper userMapper;
-
-    public UserRestController(UserService userService, UserMapper userMapper) {
-        this.service = userService;
-        this.userMapper = userMapper;
-    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") int id) {

@@ -1,6 +1,7 @@
 package ru.grigoriev.graduationproject.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -19,9 +20,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
 import ru.grigoriev.graduationproject.AbstractServiceTest;
+import ru.grigoriev.graduationproject.mapper.UserMapper;
 import ru.grigoriev.graduationproject.model.User;
 import ru.grigoriev.graduationproject.security.jwt.JwtTokenProvider;
 import ru.grigoriev.graduationproject.service.AuthUserService;
+import ru.grigoriev.graduationproject.service.UserService;
 import ru.grigoriev.graduationproject.service.impl.UserServiceImpl;
 import ru.grigoriev.graduationproject.web.constant.Constant;
 import ru.grigoriev.graduationproject.web.request.AuthenticationRequest;
@@ -34,6 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.grigoriev.graduationproject.UserTestData.getNewCorrectUser;
@@ -48,7 +52,7 @@ import static ru.grigoriev.graduationproject.util.MockSecurity.addMockToken;
 @ActiveProfiles(value = "test")
 public class AuthRestControllerTest extends AbstractServiceTest {
     @Autowired
-    Jackson2ObjectMapperBuilder mapperBuilder;
+    private Jackson2ObjectMapperBuilder mapperBuilder;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -56,7 +60,9 @@ public class AuthRestControllerTest extends AbstractServiceTest {
     @Autowired
     private AuthUserService authUserService;
     @Autowired
-    UserServiceImpl userServiceImpl;
+    private UserService userService;
+    @Autowired
+    private UserMapper userMapper;
     private ObjectMapper mapper;
     private MockMvc mockMvc;
     private final String path = Constant.VERSION_URL + "/auth";
@@ -111,6 +117,21 @@ public class AuthRestControllerTest extends AbstractServiceTest {
                 .andExpect(jsonPath("$.name", equalTo("User4")))
                 .andExpect(jsonPath("$.email", equalTo("user4@yandex.com")))
                 .andExpect(status().isOk());
+
+        int id = userCreate.getId();
+
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(new UserRestController(userService, userMapper))
+                .build();
+
+        mockMvc.perform(get("/api/v1/users/" + id)
+                        .with(jwt()
+                                .jwt(jwt -> jwt.claim(StandardClaimNames.SUB, "Test")))
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", equalTo(id)))
+                .andExpect(jsonPath("$.name", equalTo(getNewCorrectUser().getName())))
+                .andExpect(jsonPath("$.email", equalTo(getNewCorrectUser().getEmail())));
     }
 
     @Test

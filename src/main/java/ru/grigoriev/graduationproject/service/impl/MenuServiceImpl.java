@@ -16,7 +16,10 @@ import ru.grigoriev.graduationproject.util.DB.DB;
 import ru.grigoriev.graduationproject.web.request.menu.MenuCreateRequest;
 import ru.grigoriev.graduationproject.web.request.update.MenuUpdateRequest;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -65,17 +68,16 @@ public class MenuServiceImpl implements MenuService {
         return result;
     }
 
-
     @Override
-    public List<MenuDto> getAll() {
-        List<Menu> result = menuRepository.findAll(Sort.by(Sort.Direction.ASC, "restaurant_id"));
+    public List<MenuDto> getAll(LocalDate date) {
+        List<Menu> result = menuRepository.findAllByDatOrderByRestaurantIdAsc(date);
         log.info("IN getAll -> {} menu found", result.size());
         return mapper.toDtoList(result);
     }
 
     @Override
-    public List<MenuDto> findMenuByRestaurantId(int id) {
-        List<Menu> result = menuRepository.findAll(id);
+    public List<MenuDto> findMenuByRestaurantId(int id, LocalDate date) {
+        List<Menu> result = menuRepository.findAllByRestaurant_IdAndDat(id,date);
         log.info("IN findMenuByRestaurantId -> menu: {} found by restaurant's id: {}", result, id);
         return mapper.toDtoList(result);
     }

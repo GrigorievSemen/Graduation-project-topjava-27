@@ -85,9 +85,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void delete(UserDeleteRequest userDeleteRequest) {
-        checkPossibilities(userDeleteRequest.getName(), FLAG_FOR_CHECK_BY_NAME);
+        checkPossibilities(userDeleteRequest.getId(), FLAG_FOR_CHECK_BY_ID);
         getAuthentication(userDeleteRequest.getName(), userDeleteRequest.getPassword());
-        repository.deleteUserByName(userDeleteRequest.getName());
+        repository.deleteById(userDeleteRequest.getId());
         log.info("In delete -> user with name: {} successfully deleted", userDeleteRequest.getName());
     }
 

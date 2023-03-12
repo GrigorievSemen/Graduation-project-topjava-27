@@ -11,6 +11,7 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -38,12 +39,12 @@ public class Menu extends AbstractBaseEntity {
     @Min(value = 1, message = "Price should be over 1")
     private double price;
 
-    @Column(name = "day_menu", columnDefinition = "timestamp default now()", nullable = false, updatable = false)
+    @Column(name = "dat", columnDefinition = "timestamp default now()", nullable = false, updatable = false)
     @NotNull
     @CreatedDate
-    private LocalDateTime day_menu;
+    private LocalDate dat;
 
-    public String getDay_menu() {
-        return this.day_menu.format(formatter);
+    public String getDat() {
+        return this.dat.format(formatter);
     }
 }

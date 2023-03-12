@@ -13,7 +13,6 @@ import ru.grigoriev.graduationproject.model.Dish;
 import ru.grigoriev.graduationproject.repository.DishRepository;
 import ru.grigoriev.graduationproject.util.DB.DB;
 import ru.grigoriev.graduationproject.web.constant.Constant;
-import ru.grigoriev.graduationproject.web.request.delete.DishDeleteRequest;
 import ru.grigoriev.graduationproject.web.request.update.DishUpdateRequest;
 
 import javax.validation.Valid;
@@ -77,11 +76,11 @@ public class DishRestController {
     }
 
     @Transactional
-    @PostMapping(value = "/delete")
-    public ResponseEntity<String> deleteDish(@RequestBody @Valid DishDeleteRequest dishDeleteRequest) {
+    @PostMapping(value = "/delete/{id}")
+    public ResponseEntity<String> deleteDish(@PathVariable int id) {
         log.info("IN deleteDish");
-        repository.deleteUserByName(dishDeleteRequest.getName());
-        log.info("Dish with name: {} successfully deleted", dishDeleteRequest.getName());
-        return ResponseEntity.ok("Dish " + dishDeleteRequest.getName() + " successfully deleted.");
+        repository.deleteById(id);
+        log.info("Dish with id: {} successfully deleted", id);
+        return ResponseEntity.ok("Dish with id: " + id + ", successfully deleted.");
     }
 }

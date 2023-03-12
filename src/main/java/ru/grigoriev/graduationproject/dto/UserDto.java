@@ -16,6 +16,7 @@ import java.util.Set;
 @Data
 public class UserDto {
     private static SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+    private int id;
     private String name;
     private String email;
     private Set<Role> roles;

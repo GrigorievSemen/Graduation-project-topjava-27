@@ -47,7 +47,7 @@ INSERT INTO vote (user_id, restaurant_id)
 VALUES (2, 1),
        (3, 3);
 
-INSERT INTO menu(restaurant_id, dish_id, price, day_menu)
+INSERT INTO menu(restaurant_id, dish_id, price, dat)
 VALUES (1, 1, 200, now()),
        (1, 2, 159.99, now()),
        (1, 8, 100, now()),

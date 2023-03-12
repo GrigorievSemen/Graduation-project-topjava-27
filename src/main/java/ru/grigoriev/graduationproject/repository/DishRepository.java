@@ -10,6 +10,4 @@ import java.util.Optional;
 public interface DishRepository extends JpaRepository<Dish, Integer> {
 
     Optional<Dish> findByName(String name);
-
-    void deleteUserByName(String name);
 }

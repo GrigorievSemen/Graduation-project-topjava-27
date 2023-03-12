@@ -14,7 +14,7 @@ public class MenuDto {
     private Restaurant restaurant;
     private Dish dish;
     private double price;
-    private String day_menu;
+    private String dat;
 
     public String getRestaurant() {
         return "id = " + restaurant.getId() + ", name = " + restaurant.getName();

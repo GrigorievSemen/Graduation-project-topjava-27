@@ -10,15 +10,15 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Data
 public class MenuUpdateRequest {
-    @NotBlank(message = "Поле id записи не может быть пустым")
+    @NotBlank(message = "The entry id field cannot be empty")
     private int id;
 
-    @NotBlank(message = "Поле restaurant_id не может быть пустым")
+    @NotBlank(message = "The restaurant_id field cannot be empty")
     private int restaurant_id;
 
-    @NotBlank(message = "Поле dish_id не может быть пустым")
+    @NotBlank(message = "The dish_id field cannot be empty")
     private int dish_id;
 
-    @NotBlank(message = "Поле price не может быть пустым")
+    @NotBlank(message = "The price field cannot be empty")
     private double price;
 }

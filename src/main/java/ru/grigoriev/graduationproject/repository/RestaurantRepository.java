@@ -10,6 +10,4 @@ import java.util.Optional;
 public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
     Optional<Restaurant> findByName(String name);
-
-    void deleteUserByName(String name);
 }

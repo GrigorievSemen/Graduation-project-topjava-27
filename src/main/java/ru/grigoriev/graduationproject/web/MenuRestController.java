@@ -1,6 +1,7 @@
 package ru.grigoriev.graduationproject.web;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import ru.grigoriev.graduationproject.web.request.menu.MenuCreateRequest;
 import ru.grigoriev.graduationproject.web.request.update.MenuUpdateRequest;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -38,16 +40,19 @@ public class MenuRestController {
         return ResponseEntity.ok(service.findBiId(id));
     }
 
-    @GetMapping(value = "/restaurant/{id}")
-    public ResponseEntity<List<MenuDto>> getMenuByRestaurantId(@PathVariable(name = "id") int id) {
+    @GetMapping(value = "/restaurant")
+    public ResponseEntity<List<MenuDto>> getMenuByRestaurantId(@RequestParam("id") int id, @RequestParam("date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         log.info("IN getMenuByRestaurantId");
-        return ResponseEntity.ok(service.findMenuByRestaurantId(id));
+        return ResponseEntity.ok(service.findMenuByRestaurantId(id, date));
     }
 
     @GetMapping(value = "/all")
-    public ResponseEntity<List<MenuDto>> getAll() {
+    public ResponseEntity<List<MenuDto>> getAll(@RequestParam("date")
+                                                @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date)
+    {
         log.info("IN getAll");
-        return ResponseEntity.ok(service.getAll());
+        return ResponseEntity.ok(service.getAll(date));
     }
 
     @PostMapping(value = "/update")

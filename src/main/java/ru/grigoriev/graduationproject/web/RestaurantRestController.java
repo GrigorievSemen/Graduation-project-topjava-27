@@ -13,7 +13,6 @@ import ru.grigoriev.graduationproject.model.Restaurant;
 import ru.grigoriev.graduationproject.repository.RestaurantRepository;
 import ru.grigoriev.graduationproject.util.DB.DB;
 import ru.grigoriev.graduationproject.web.constant.Constant;
-import ru.grigoriev.graduationproject.web.request.delete.RestaurantDeleteRequest;
 import ru.grigoriev.graduationproject.web.request.update.RestaurantUpdateRequest;
 
 import javax.validation.Valid;
@@ -78,11 +77,11 @@ public class RestaurantRestController {
     }
 
     @Transactional
-    @PostMapping(value = "/delete")
-    public ResponseEntity<String> deleteRestaurant(@RequestBody @Valid RestaurantDeleteRequest restaurantDeleteRequest) {
+    @PostMapping(value = "/delete/{id}")
+    public ResponseEntity<String> deleteRestaurant(@PathVariable int id ) {
         log.info("IN deleteRestaurant");
-        repository.deleteUserByName(restaurantDeleteRequest.getName());
-        log.info("Restaurant with name: {} successfully deleted", restaurantDeleteRequest.getName());
-        return ResponseEntity.ok("Restaurant " + restaurantDeleteRequest.getName() + " successfully deleted.");
+        repository.deleteById(id);
+        log.info("Restaurant with id: {} successfully deleted", id);
+        return ResponseEntity.ok("Restaurant with id: " + id + ", successfully deleted.");
     }
 }
