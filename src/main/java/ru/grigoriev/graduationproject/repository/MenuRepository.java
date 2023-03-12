@@ -18,9 +18,7 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
 
     List<Menu> findAllByDatOrderByRestaurantIdAsc(LocalDate date);
 
-    @Modifying
-    @Query("DELETE FROM Menu m WHERE m.restaurant.id = :id")
-    int deleteByRestaurantId(@Param("id") int id);
+    int deleteByRestaurantId(int id);
 
     @Modifying
     @Query("DELETE FROM Menu m WHERE m.id = :id")

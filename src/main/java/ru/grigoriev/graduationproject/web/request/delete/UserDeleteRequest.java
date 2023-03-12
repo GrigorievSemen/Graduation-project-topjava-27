@@ -1,6 +1,7 @@
 package ru.grigoriev.graduationproject.web.request.delete;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class UserDeleteRequest {
     @NotNull(message = "Id cannot be empty")
     private Integer id;

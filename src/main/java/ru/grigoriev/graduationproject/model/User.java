@@ -33,6 +33,7 @@ public class User extends AbstractNamedEntity {
         this.password = password;
         this.enabled = enabled;
         setRoles(roles);
+        this.status = Status.ACTIVE;
     }
 
     @NotBlank(message = "Email cannot be empty")
