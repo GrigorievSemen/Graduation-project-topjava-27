@@ -1,10 +1,8 @@
 package ru.grigoriev.graduationproject.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -16,8 +14,8 @@ import java.time.LocalDateTime;
 @Access(AccessType.FIELD)
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
+@SuperBuilder
 public abstract class AbstractBaseEntity {
 
     @Id

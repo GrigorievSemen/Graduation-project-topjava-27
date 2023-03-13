@@ -3,6 +3,7 @@ package ru.grigoriev.graduationproject.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
@@ -17,24 +18,25 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@SuperBuilder
 @Table(name = "users", indexes = @Index(columnList = "name"))
 public class User extends AbstractNamedEntity {
 
-    public User(String name, String email, String password) {
-        super(name);
-        this.email = email;
-        this.password = password;
-    }
-
-    public User(Integer id, String name, String email, String password, boolean enabled, Collection<Role> roles) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.enabled = enabled;
-        setRoles(roles);
-        this.status = Status.ACTIVE;
-    }
+//    public User(String name, String email, String password) {
+//        super(name);
+//        this.email = email;
+//        this.password = password;
+//    }
+//
+//    public User(Integer id, String name, String email, String password, boolean enabled, Collection<Role> roles) {
+//        this.id = id;
+//        this.name = name;
+//        this.email = email;
+//        this.password = password;
+//        this.enabled = enabled;
+//        setRoles(roles);
+//        this.status = Status.ACTIVE;
+//    }
 
     @NotBlank(message = "Email cannot be empty")
     @Column(name = "email", nullable = false, unique = true)

@@ -45,41 +45,39 @@ import static ru.grigoriev.graduationproject.util.MockSecurity.addMockToken;
 @AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles(value = "test")
 public class UserRestControllerTest extends AbstractControllerTest {
-    @Autowired
-    private AuthUserService authUserService;
 //    @Autowired
 //    private UserService service;
     private final String path = Constant.VERSION_URL + "/users";
 
     @Test
     void testGetUserByIdReturnsOk() throws Exception {
-        addMockToken(getUser());
+        addMockToken(USER);
 
-        perform(get(path + "/" + getUser().getId()))
+        perform(get(path + "/" + USER.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(getUser().getId())))
-                .andExpect(jsonPath("$.name", equalTo(getUser().getName())))
-                .andExpect(jsonPath("$.email", equalTo(getUser().getEmail())))
-                .andExpect(jsonPath("$.roles[0]", equalTo(new ArrayList<>(getUser().getRoles()).get(0).toString())));
+                .andExpect(jsonPath("$.id", equalTo(USER.getId())))
+                .andExpect(jsonPath("$.name", equalTo(USER.getName())))
+                .andExpect(jsonPath("$.email", equalTo(USER.getEmail())))
+                .andExpect(jsonPath("$.roles[0]", equalTo(new ArrayList<>(USER.getRoles()).get(0).toString())));
     }
 
     @Test
     void testGetUserByNameReturnsOk() throws Exception {
-        addMockToken(getUser());
+        addMockToken(USER);
 
-        perform(get(path + "/" + "?name=" + getUser().getName()))
+        perform(get(path + "/" + "?name=" + USER.getName()))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(getUser().getId())))
-                .andExpect(jsonPath("$.name", equalTo(getUser().getName())))
-                .andExpect(jsonPath("$.email", equalTo(getUser().getEmail())))
-                .andExpect(jsonPath("$.roles[0]", equalTo(new ArrayList<>(getUser().getRoles()).get(0).toString())));
+                .andExpect(jsonPath("$.id", equalTo(USER.getId())))
+                .andExpect(jsonPath("$.name", equalTo(USER.getName())))
+                .andExpect(jsonPath("$.email", equalTo(USER.getEmail())))
+                .andExpect(jsonPath("$.roles[0]", equalTo(new ArrayList<>(USER.getRoles()).get(0).toString())));
     }
 
     @Test
     void testGetUserNotFound() {
-        addMockToken(getAdmin());
+        addMockToken(ADMIN);
 
         NestedServletException exception = assertThrows(NestedServletException.class, () ->
                 perform(get(path + "/" + USER_ID_NOT_FOUND))
@@ -90,7 +88,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testTryDataUsersOtherUser() {
-        addMockToken(getUser());
+        addMockToken(USER);
 
         NestedServletException exception = assertThrows(NestedServletException.class, () ->
                 perform(get(path + "/" + USER_ID_NOT_FOUND))
@@ -101,117 +99,43 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testGetAllUserReturnsOk() throws Exception {
-        addMockToken(getAdmin());
+        addMockToken(ADMIN);
 
 //        USER_DTO_MATCHER.assertMatch(service.getAll(),getAllUserDto());
 
         perform(get(path + "/all" ))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(USER_DTO_MATCHER.contentJson((getAllUserDto())));
+                .andExpect(USER_DTO_MATCHER.contentJson(ALL_USER_DTO));
     }
 
     @Test
     void testUpdateUserReturnsOk() throws Exception {
-        addMockToken(getUser());
+        addMockToken(USER);
 
         perform(post(path + "/update" )
-                .content(mapper().writeValueAsString(getUserUpdateRequest()))
+                .content(mapper().writeValueAsString(USER_UPDATE_REQUEST))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(getUser().getId())))
-                .andExpect(jsonPath("$.name", equalTo(getUserUpdateRequest().getNew_name())))
-                .andExpect(jsonPath("$.email", equalTo(getUserUpdateRequest().getEmail())));
+                .andExpect(jsonPath("$.id", equalTo(USER.getId())))
+                .andExpect(jsonPath("$.name", equalTo(USER_UPDATE_REQUEST.getNew_name())))
+                .andExpect(jsonPath("$.email", equalTo(USER_UPDATE_REQUEST.getEmail())));
     }
 
     @Test
     void testDeleteUserReturnsOk() throws Exception {
-        addMockToken(getUser());
+        addMockToken(USER);
 
         perform(post(path + "/delete" )
-                .content(mapper().writeValueAsString(getUserDeleteRequest()))
+                .content(mapper().writeValueAsString(USER_DELETE_REQUEST))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print());
 
         NestedServletException exception = assertThrows(NestedServletException.class, () ->
-                perform(get(path + "/" + getUser().getId()))
+                perform(get(path + "/" + USER.getId()))
                         .andDo(print()));
 
         assertThat(exception.getCause().getMessage(), equalTo("User does not exist in the database"));
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @Test
-    void testLoginException() {
-        AuthenticationRequest authenticationRequestException = AuthenticationRequest.builder()
-                .name("Admin")
-                .password("adminn")
-                .build();
-
-        NestedServletException exception = assertThrows(NestedServletException.class, () ->
-                perform(post(path + "/login")
-                        .content(mapper().writeValueAsString(authenticationRequestException))
-                        .contentType(MediaType.APPLICATION_JSON)));
-        assertThat(exception.getCause().getMessage(), equalTo("Invalid name or password"));
-    }
-
-    @Test
-    void registeredReturnsOk() throws Exception {
-        User userCreate = getNewCorrectUser();
-        authUserService.create(userCreate);
-
-        addMockToken(USER_FOR_TOKEN);
-
-        perform(post(path + "/registered")
-                        .content(mapper().writeValueAsString(userCreate))
-                        .with(jwt()
-                                .jwt(jwt -> jwt.claim(StandardClaimNames.SUB, "Test")))
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name", equalTo("User4")))
-                .andExpect(jsonPath("$.email", equalTo("user4@yandex.com")))
-                .andExpect(status().isOk());
-
-        int id = userCreate.getId();
-
-        perform(get("/api/v1/users/" + id)
-                        .with(jwt()
-                                .jwt(jwt -> jwt.claim(StandardClaimNames.SUB, "Test")))
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id", equalTo(id)))
-                .andExpect(jsonPath("$.name", equalTo(getNewCorrectUser().getName())))
-                .andExpect(jsonPath("$.email", equalTo(getNewCorrectUser().getEmail())));
-    }
-
-
-
-    @Test
-    void createWithException() {
-        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(new User("Name", "", "")));
-        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(new User("", "user4@yandex.com", "")));
-        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(new User("", "", "User4")));
-        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(new User("", "user4@yandex.com", "User4")));
-        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(new User("Name", "", "User4")));
-        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(new User("N", "user4@yandex.com", "User4")));
     }
 }

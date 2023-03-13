@@ -1,5 +1,6 @@
 package ru.grigoriev.graduationproject.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -21,6 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
 import ru.grigoriev.graduationproject.AbstractControllerTest;
 import ru.grigoriev.graduationproject.mapper.UserMapper;
+import ru.grigoriev.graduationproject.model.Status;
 import ru.grigoriev.graduationproject.model.User;
 import ru.grigoriev.graduationproject.security.jwt.JwtTokenProvider;
 import ru.grigoriev.graduationproject.service.AuthUserService;
@@ -56,12 +58,8 @@ public class AuthRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testLoginReturnsOk() throws Exception {
-        AuthenticationRequest authenticationRequest = AuthenticationRequest.builder()
-                .name("Admin")
-                .password("admin")
-                .build();
         perform(post(path + "/login")
-                        .content(mapper().writeValueAsString(authenticationRequest))
+                        .content(mapper().writeValueAsString(AUTHENTICATION_REQUEST))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -69,14 +67,9 @@ public class AuthRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testLoginException() {
-        AuthenticationRequest authenticationRequestException = AuthenticationRequest.builder()
-                .name("Admin")
-                .password("adminn")
-                .build();
-
         NestedServletException exception = assertThrows(NestedServletException.class, () ->
                 perform(post(path + "/login")
-                        .content(mapper().writeValueAsString(authenticationRequestException))
+                        .content(mapper().writeValueAsString(AUTHENTICATION_REQUEST_EXS))
                         .contentType(MediaType.APPLICATION_JSON))
                         .andDo(print()));
 
@@ -84,46 +77,44 @@ public class AuthRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void registeredReturnsOk() throws Exception {
-        User userCreate = getNewCorrectUser();
-        authUserService.create(userCreate);
-
-        addMockToken(userCreate);
+    void testRegisteredReturnsOk() throws Exception {
 
         perform(post(path + "/registered")
-                        .content(mapper().writeValueAsString(userCreate))
-//                        .with(jwt()
-//                                .jwt(jwt -> jwt.claim(StandardClaimNames.SUB, "Test")))
-//                        .with(csrf())
+                        .content(mapper().writeValueAsString(NEW_CORRECT_USER))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(jsonPath("$.name", equalTo(userCreate.getName())))
-                .andExpect(jsonPath("$.email", equalTo(userCreate.getEmail())))
+                .andExpect(jsonPath("$.id", equalTo(NEW_CORRECT_USER.getId())))
+                .andExpect(jsonPath("$.name", equalTo(NEW_CORRECT_USER.getName())))
+                .andExpect(jsonPath("$.email", equalTo(NEW_CORRECT_USER.getEmail())))
                 .andExpect(status().isOk());
+        addMockToken(NEW_CORRECT_USER);
 
-        int id = userCreate.getId();
-
-        perform(get("/api/v1/users/" + id)
+        perform(get("/api/v1/users/" + NEW_CORRECT_USER.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(jsonPath("$.id", equalTo(id)))
-                .andExpect(jsonPath("$.name", equalTo(getNewCorrectUser().getName())))
-                .andExpect(jsonPath("$.email", equalTo(getNewCorrectUser().getEmail())));
+                .andExpect(jsonPath("$.id", equalTo(NEW_CORRECT_USER.getId())))
+                .andExpect(jsonPath("$.name", equalTo(NEW_CORRECT_USER.getName())))
+                .andExpect(jsonPath("$.email", equalTo(NEW_CORRECT_USER.getEmail())));
     }
 
     @Test
-    void registeredExceptionUnique() {
-        assertThrows(DataIntegrityViolationException.class,
-                () -> authUserService.create(getNewUserWithDuplicateEmail()));
+    void testRegisteredExceptionUnique() throws Exception {
+        addMockToken(ADMIN);
+        assertThrows(NestedServletException.class,
+                () -> perform(post(path + "/registered")
+                        .content(mapper().writeValueAsString(USER_WITH_DUPLICATE_EMAIL))
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andDo(print()));
+
     }
 
     @Test
-    void createWithException() {
-        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(new User("Name", "", "")));
-        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(new User("", "user4@yandex.com", "")));
-        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(new User("", "", "User4")));
-        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(new User("", "user4@yandex.com", "User4")));
-        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(new User("Name", "", "User4")));
-        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(new User("N", "user4@yandex.com", "User4")));
+    void testCreateWithException() {
+        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(User.builder().name("Name").email("").password("").build()));
+        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(User.builder().name("").email("").password("User4").build()));
+        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(User.builder().name("").email("user4@yandex.com").password("User4").build()));
+        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(User.builder().name("").email("").password("").build()));
+        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(User.builder().name("Name").email("").password("").build()));
+        validateRootCause(ConstraintViolationException.class, () -> authUserService.create(User.builder().name("N").email("user4@yandex.com").password("User4").build()));
     }
 }

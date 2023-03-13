@@ -13,11 +13,15 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import ru.grigoriev.graduationproject.mapper.DishMapper;
 import ru.grigoriev.graduationproject.mapper.UserMapper;
+import ru.grigoriev.graduationproject.repository.DishRepository;
 import ru.grigoriev.graduationproject.security.jwt.JwtTokenProvider;
 import ru.grigoriev.graduationproject.service.AuthUserService;
 import ru.grigoriev.graduationproject.service.UserService;
+import ru.grigoriev.graduationproject.util.DB.DB;
 import ru.grigoriev.graduationproject.web.AuthRestController;
+import ru.grigoriev.graduationproject.web.DishRestController;
 import ru.grigoriev.graduationproject.web.UserRestController;
 
 import javax.annotation.PostConstruct;
@@ -51,14 +55,21 @@ public abstract class AbstractControllerTest {
     private UserService userService;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private DishMapper dishMapper;
     private MockMvc mockMvc;
     private ObjectMapper mapper;
+    @Autowired
+    private DishRepository repository;
+    @Autowired
+    private DB db;
 
     @PostConstruct
     private void postConstruct() {
         mockMvc = MockMvcBuilders
                 .standaloneSetup(new AuthRestController(authenticationManager, jwtTokenProvider, authUserService)
-                        , new UserRestController(userService, userMapper))
+                        , new UserRestController(userService, userMapper), new DishRestController(repository,dishMapper,db)
+                        )
                 .addFilter(CHARACTER_ENCODING_FILTER)
                 .build();
         mapper = mapperBuilder.build();
