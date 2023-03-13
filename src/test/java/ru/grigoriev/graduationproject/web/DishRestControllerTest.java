@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.util.NestedServletException;
 import ru.grigoriev.graduationproject.AbstractControllerTest;
+import ru.grigoriev.graduationproject.model.Dish;
 import ru.grigoriev.graduationproject.model.User;
 import ru.grigoriev.graduationproject.service.AuthUserService;
 import ru.grigoriev.graduationproject.web.constant.Constant;
@@ -47,23 +48,33 @@ public class DishRestControllerTest extends AbstractControllerTest {
     @Test
     void testCreateDishReturnsOk() throws Exception {
         addMockToken(ADMIN);
+        Dish createDish = getNewDish();
 
         perform(post(path + "/save")
-                .content(mapper().writeValueAsString(getDISH()))
+                .content(mapper().writeValueAsString(createDish))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(DISH.getId())))
-                .andExpect(jsonPath("$.name", equalTo(DISH.getName())));
+                .andExpect(jsonPath("$.id", equalTo(DISH_ID)))
+                .andExpect(jsonPath("$.name", equalTo(getNewDish().getName())));
+
+        perform(get(path + "/" + DISH_ID)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(jsonPath("$.id", equalTo(DISH_ID)))
+                .andExpect(jsonPath("$.name", equalTo(getNewDish().getName())));
     }
+
     @Test
     void testCreateExceptionUnique() throws Exception {
         addMockToken(ADMIN);
-                perform(post(path + "/save")
-                        .content(mapper().writeValueAsString(DUPLICATE_DISH))
+        Dish createDish = getDuplicateDish();
+
+        assertThrows(NestedServletException.class,
+                () -> perform(post(path + "/save")
+                        .content(mapper().writeValueAsString(createDish))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().is4xxClientError());
+                        .andDo(print()));
     }
 
 

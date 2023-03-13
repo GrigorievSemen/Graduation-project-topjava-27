@@ -45,8 +45,6 @@ import static ru.grigoriev.graduationproject.util.MockSecurity.addMockToken;
 @AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles(value = "test")
 public class UserRestControllerTest extends AbstractControllerTest {
-//    @Autowired
-//    private UserService service;
     private final String path = Constant.VERSION_URL + "/users";
 
     @Test
@@ -100,8 +98,6 @@ public class UserRestControllerTest extends AbstractControllerTest {
     @Test
     void testGetAllUserReturnsOk() throws Exception {
         addMockToken(ADMIN);
-
-//        USER_DTO_MATCHER.assertMatch(service.getAll(),getAllUserDto());
 
         perform(get(path + "/all" ))
                 .andDo(print())

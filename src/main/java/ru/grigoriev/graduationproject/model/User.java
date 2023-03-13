@@ -22,11 +22,13 @@ import java.util.Set;
 @Table(name = "users", indexes = @Index(columnList = "name"))
 public class User extends AbstractNamedEntity {
 
-//    public User(String name, String email, String password) {
-//        super(name);
-//        this.email = email;
-//        this.password = password;
-//    }
+    public User(@NotBlank(message = "Name cannot be empty") @Size(min = 2, max = 128, message = "Name length must be between 2 and 128 characters") String name
+            , String email, String password) {
+        super(name);
+        this.email = email;
+        this.password = password;
+    }
+
 //
 //    public User(Integer id, String name, String email, String password, boolean enabled, Collection<Role> roles) {
 //        this.id = id;

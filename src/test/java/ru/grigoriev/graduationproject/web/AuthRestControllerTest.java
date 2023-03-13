@@ -61,33 +61,31 @@ public class AuthRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testRegisteredReturnsOk() throws Exception {
-        authUserService.create(NEW_CORRECT_USER);
-        addMockToken(NEW_CORRECT_USER);
-
+        User createUser = getNewUser();
         perform(post(path + "/registered")
-                .content(mapper().writeValueAsString(NEW_CORRECT_USER))
+                .content(mapper().writeValueAsString(createUser))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(jsonPath("$.id", equalTo(NEW_CORRECT_USER.getId())))
-                .andExpect(jsonPath("$.name", equalTo(NEW_CORRECT_USER.getName())))
-                .andExpect(jsonPath("$.email", equalTo(NEW_CORRECT_USER.getEmail())))
+                .andExpect(jsonPath("$.id", equalTo(USER_ID)))
+                .andExpect(jsonPath("$.name", equalTo(getNewUser().getName())))
+                .andExpect(jsonPath("$.email", equalTo(getNewUser().getEmail())))
                 .andExpect(status().isOk());
 
-
-        perform(get("/api/v1/users/" + NEW_CORRECT_USER.getId())
+        addMockToken( ADMIN);
+        perform(get("/api/v1/users/" + USER_ID)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(jsonPath("$.id", equalTo(NEW_CORRECT_USER.getId())))
-                .andExpect(jsonPath("$.name", equalTo(NEW_CORRECT_USER.getName())))
-                .andExpect(jsonPath("$.email", equalTo(NEW_CORRECT_USER.getEmail())));
+                .andExpect(jsonPath("$.id", equalTo(USER_ID)))
+                .andExpect(jsonPath("$.name", equalTo(getNewUser().getName())))
+                .andExpect(jsonPath("$.email", equalTo(getNewUser().getEmail())));
     }
 
     @Test
-    void testRegisteredExceptionUnique() throws Exception {
-        addMockToken(ADMIN);
+    void testRegisteredExceptionUnique() {
+        User createUser = getNewUserWithDuplicateEmail();
         assertThrows(NestedServletException.class,
                 () -> perform(post(path + "/registered")
-                        .content(mapper().writeValueAsString(USER_WITH_DUPLICATE_EMAIL))
+                        .content(mapper().writeValueAsString(createUser))
                         .contentType(MediaType.APPLICATION_JSON))
                         .andDo(print()));
 

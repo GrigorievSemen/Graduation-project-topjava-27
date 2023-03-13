@@ -1,9 +1,6 @@
 package ru.grigoriev.graduationproject.model;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
@@ -16,8 +13,12 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Data
 @Table(name = "dish", indexes = @Index(columnList = "name"))
-@SuperBuilder
+
 public class Dish extends AbstractNamedEntity {
+
+    public Dish(@NotBlank(message = "Name cannot be empty") @Size(min = 2, max = 128, message = "Name length must be between 2 and 128 characters") String name) {
+        super(name);
+    }
 
     @Override
     public String toString() {
