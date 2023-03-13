@@ -71,7 +71,7 @@ public class AuthRestControllerTest extends AbstractControllerTest {
                 .andExpect(jsonPath("$.email", equalTo(getNewUser().getEmail())))
                 .andExpect(status().isOk());
 
-        addMockToken( ADMIN);
+        addMockToken(ADMIN);
         perform(get("/api/v1/users/" + USER_ID)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

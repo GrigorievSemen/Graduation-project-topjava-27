@@ -1,7 +1,7 @@
 package ru.grigoriev.graduationproject.model;
 
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Index;

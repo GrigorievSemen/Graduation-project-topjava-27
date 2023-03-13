@@ -3,12 +3,8 @@ package ru.grigoriev.graduationproject.util;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import ru.grigoriev.graduationproject.model.Role;
-import ru.grigoriev.graduationproject.model.Status;
 import ru.grigoriev.graduationproject.model.User;
 import ru.grigoriev.graduationproject.security.jwt.JwtUserFactory;
-
-import java.util.Collections;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

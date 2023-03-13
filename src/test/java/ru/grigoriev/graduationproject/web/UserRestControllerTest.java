@@ -3,33 +3,20 @@ package ru.grigoriev.graduationproject.web;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
-import org.springframework.http.StreamingHttpOutputMessage;
-import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.util.NestedServletException;
 import ru.grigoriev.graduationproject.AbstractControllerTest;
-import ru.grigoriev.graduationproject.model.User;
-import ru.grigoriev.graduationproject.service.AuthUserService;
-import ru.grigoriev.graduationproject.service.UserService;
 import ru.grigoriev.graduationproject.web.constant.Constant;
-import ru.grigoriev.graduationproject.web.request.AuthenticationRequest;
-
-import javax.validation.ConstraintViolationException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -99,7 +86,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
     void testGetAllUserReturnsOk() throws Exception {
         addMockToken(ADMIN);
 
-        perform(get(path + "/all" ))
+        perform(get(path + "/all"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(USER_DTO_MATCHER.contentJson(ALL_USER_DTO));
@@ -109,7 +96,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
     void testUpdateUserReturnsOk() throws Exception {
         addMockToken(USER);
 
-        perform(post(path + "/update" )
+        perform(post(path + "/update")
                 .content(mapper().writeValueAsString(USER_UPDATE_REQUEST))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -123,7 +110,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
     void testDeleteUserReturnsOk() throws Exception {
         addMockToken(USER);
 
-        perform(post(path + "/delete" )
+        perform(post(path + "/delete")
                 .content(mapper().writeValueAsString(USER_DELETE_REQUEST))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print());

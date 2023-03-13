@@ -49,8 +49,7 @@ public class MenuRestController {
 
     @GetMapping(value = "/all")
     public ResponseEntity<List<MenuDto>> getAll(@RequestParam("date")
-                                                @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date)
-    {
+                                                @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         log.info("IN getAll");
         return ResponseEntity.ok(service.getAll(date));
     }

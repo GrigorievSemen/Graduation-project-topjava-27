@@ -13,10 +13,11 @@ FROM restaurant;
 
 INSERT INTO users (name, email, password)
 VALUES ('Admin', 'admin@yandex.com',
-        '$2a$10$9jxLMntUjcBgM4Rb.bMAzO3.nrd2ChpdAnVQdblF8gfYYPxl.UVc2'),                             -- 1 password admin
-       ('User1', 'user1@yandex.com', '$2a$10$.NUmdJBMsx4OzbxZPnPpfeYSCw9kiek3lhvjp9nCjxugVG0ioVwf.'), -- 2 password test1
+        '$2a$10$9jxLMntUjcBgM4Rb.bMAzO3.nrd2ChpdAnVQdblF8gfYYPxl.UVc2'), -- 1 password admin
+       ('User1', 'user1@yandex.com',
+        '$2a$10$.NUmdJBMsx4OzbxZPnPpfeYSCw9kiek3lhvjp9nCjxugVG0ioVwf.'), -- 2 password test1
        ('User2', 'user2@yandex.com',
-        '$2a$10$/yRivUr0N8X23Uz1ASSNxOrCzupdmBdO0o.xBp4GQKoLeli1vDcXi'),                             -- 3 password test2
+        '$2a$10$/yRivUr0N8X23Uz1ASSNxOrCzupdmBdO0o.xBp4GQKoLeli1vDcXi'), -- 3 password test2
        ('User3', 'user3@yandex.com',
         '$2a$10$OnGR.07a9JJxEdpKrHcU0OY1voZu//GW7IJ4vP1qp.lv8Ik3.15ee'); -- 4 password test3
 

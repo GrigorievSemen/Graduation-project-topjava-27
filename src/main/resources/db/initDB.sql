@@ -64,7 +64,7 @@ CREATE TABLE menu
     price         DOUBLE PRECISION           NOT NULL,
     created_at    TIMESTAMP(0) DEFAULT now() NOT NULL,
     updated_at    TIMESTAMP(0) DEFAULT now() NOT NULL,
-    dat           DATE DEFAULT now() NOT NULL,
+    dat           DATE         DEFAULT now() NOT NULL,
     FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE,
     FOREIGN KEY (dish_id) REFERENCES dish (id) ON DELETE CASCADE
 );

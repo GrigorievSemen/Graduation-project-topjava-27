@@ -78,7 +78,7 @@ public class RestaurantRestController {
 
     @Transactional
     @PostMapping(value = "/delete/{id}")
-    public ResponseEntity<String> deleteRestaurant(@PathVariable int id ) {
+    public ResponseEntity<String> deleteRestaurant(@PathVariable int id) {
         log.info("IN deleteRestaurant");
         repository.deleteById(id);
         log.info("Restaurant with id: {} successfully deleted", id);

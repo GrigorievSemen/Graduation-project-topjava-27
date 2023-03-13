@@ -68,8 +68,8 @@ public abstract class AbstractControllerTest {
     private void postConstruct() {
         mockMvc = MockMvcBuilders
                 .standaloneSetup(new AuthRestController(authenticationManager, jwtTokenProvider, authUserService)
-                        , new UserRestController(userService, userMapper), new DishRestController(repository,dishMapper,db)
-                        )
+                        , new UserRestController(userService, userMapper), new DishRestController(repository, dishMapper, db)
+                )
                 .addFilter(CHARACTER_ENCODING_FILTER)
                 .build();
         mapper = mapperBuilder.build();

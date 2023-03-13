@@ -2,7 +2,6 @@ package ru.grigoriev.graduationproject.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.grigoriev.graduationproject.dto.MenuDto;
@@ -16,10 +15,8 @@ import ru.grigoriev.graduationproject.util.DB.DB;
 import ru.grigoriev.graduationproject.web.request.menu.MenuCreateRequest;
 import ru.grigoriev.graduationproject.web.request.update.MenuUpdateRequest;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -77,7 +74,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuDto> findMenuByRestaurantId(int id, LocalDate date) {
-        List<Menu> result = menuRepository.findAllByRestaurant_IdAndDat(id,date);
+        List<Menu> result = menuRepository.findAllByRestaurant_IdAndDat(id, date);
         log.info("IN findMenuByRestaurantId -> menu: {} found by restaurant's id: {}", result, id);
         return mapper.toDtoList(result);
     }

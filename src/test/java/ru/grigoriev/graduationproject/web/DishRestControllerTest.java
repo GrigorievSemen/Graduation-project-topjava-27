@@ -1,33 +1,20 @@
 package ru.grigoriev.graduationproject.web;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
-import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.util.NestedServletException;
 import ru.grigoriev.graduationproject.AbstractControllerTest;
 import ru.grigoriev.graduationproject.model.Dish;
-import ru.grigoriev.graduationproject.model.User;
-import ru.grigoriev.graduationproject.service.AuthUserService;
 import ru.grigoriev.graduationproject.web.constant.Constant;
-import ru.grigoriev.graduationproject.web.request.AuthenticationRequest;
 
-import javax.validation.ConstraintViolationException;
-import java.util.ArrayList;
-
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -66,7 +53,7 @@ public class DishRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void testCreateExceptionUnique() throws Exception {
+    void testCreateExceptionUnique() {
         addMockToken(ADMIN);
         Dish createDish = getDuplicateDish();
 
@@ -167,9 +154,6 @@ public class DishRestControllerTest extends AbstractControllerTest {
 //
 //        assertThat(exception.getCause().getMessage(), equalTo("User does not exist in the database"));
 //    }
-
-
-
 
 
 }

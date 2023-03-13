@@ -10,7 +10,8 @@ import ru.grigoriev.graduationproject.web.request.AuthenticationRequest;
 import ru.grigoriev.graduationproject.web.request.delete.UserDeleteRequest;
 import ru.grigoriev.graduationproject.web.request.update.UserUpdateRequest;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 
 public class UserTestData {
