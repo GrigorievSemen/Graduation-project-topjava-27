@@ -17,12 +17,8 @@ public class UserTestData {
     public static final MatcherFactory.Matcher<UserDto> USER_DTO_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(UserDto.class, "created_at","updated_at");
     public static final AuthenticationRequest AUTHENTICATION_REQUEST = AuthenticationRequest.builder().name("Admin").password("admin").build();
     public static final AuthenticationRequest AUTHENTICATION_REQUEST_EXS = AuthenticationRequest.builder().name("Admin").password("adminn").build();
-    public static final User NEW_CORRECT_USER = User.builder().id(5).name("User4").email("user4@yandex.com").password("test4")
-            .enabled(true).status(Status.ACTIVE).created_at(LocalDateTime.now()).updated_at(LocalDateTime.now())
-            .roles(Collections.singleton(Role.ROLE_USER)).build();
-    public static final User USER_WITH_DUPLICATE_EMAIL = User.builder().id(5).name("User4").email("user3@yandex.com").password("test4")
-            .enabled(true).status(Status.ACTIVE).created_at(LocalDateTime.now()).updated_at(LocalDateTime.now())
-            .roles(Collections.singleton(Role.ROLE_USER)).build();
+    public static final User NEW_CORRECT_USER = User.builder().name("User4").email("user4@yandex.com").password("test4").build();
+    public static final User USER_WITH_DUPLICATE_EMAIL = User.builder().name("User4").email("user3@yandex.com").password("test4").build();
     public static final User USER = User.builder().id(2).name("User1").email("user1@yandex.com").password("test1").enabled(true)
             .status(Status.ACTIVE).roles(Collections.singleton(Role.ROLE_USER)).build();
     public static final User ADMIN = User.builder().id(1).name("Admin").email("admin@yandex.com").password("admin").enabled(true)
