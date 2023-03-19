@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.grigoriev.graduationproject.UserTestData.*;
+import static ru.grigoriev.graduationproject.DataTest.*;
 import static ru.grigoriev.graduationproject.util.MockSecurity.addMockToken;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -66,16 +66,16 @@ public class AuthRestControllerTest extends AbstractControllerTest {
                 .content(mapper().writeValueAsString(createUser))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(jsonPath("$.id", equalTo(USER_ID)))
+                .andExpect(jsonPath("$.id", equalTo(NEW_USER_ID)))
                 .andExpect(jsonPath("$.name", equalTo(getNewUser().getName())))
                 .andExpect(jsonPath("$.email", equalTo(getNewUser().getEmail())))
                 .andExpect(status().isOk());
 
         addMockToken(ADMIN);
-        perform(get("/api/v1/users/" + USER_ID)
+        perform(get("/api/v1/users/" + NEW_USER_ID)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(jsonPath("$.id", equalTo(USER_ID)))
+                .andExpect(jsonPath("$.id", equalTo(NEW_USER_ID)))
                 .andExpect(jsonPath("$.name", equalTo(getNewUser().getName())))
                 .andExpect(jsonPath("$.email", equalTo(getNewUser().getEmail())));
     }

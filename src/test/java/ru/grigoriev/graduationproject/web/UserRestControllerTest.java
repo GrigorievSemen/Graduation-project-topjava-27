@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.grigoriev.graduationproject.UserTestData.*;
+import static ru.grigoriev.graduationproject.DataTest.*;
 import static ru.grigoriev.graduationproject.util.MockSecurity.addMockToken;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -68,7 +68,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
                 perform(get(path + "/" + USER_ID_NOT_FOUND))
                         .andDo(print()));
 
-        assertThat(exception.getCause().getMessage(), equalTo("User does not exist in the database"));
+        assertThat(exception.getCause().getMessage(), equalTo("User with id - " + USER_ID_NOT_FOUND + "does not exist in the database"));
     }
 
     @Test
@@ -119,6 +119,6 @@ public class UserRestControllerTest extends AbstractControllerTest {
                 perform(get(path + "/" + USER.getId()))
                         .andDo(print()));
 
-        assertThat(exception.getCause().getMessage(), equalTo("User does not exist in the database"));
+        assertThat(exception.getCause().getMessage(), equalTo("User with id - " + USER.getId() + " does not exist in the database"));
     }
 }

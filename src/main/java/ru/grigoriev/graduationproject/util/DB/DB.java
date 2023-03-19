@@ -46,7 +46,7 @@ public class DB extends MySQL57Dialect {
     public User getUserById(int id) {
         Optional<User> result = Optional.ofNullable(userRepository.findById(id)
                 .orElseThrow(() ->
-                        new NotFoundException("User does not exist in the database")));
+                        new NotFoundException("User with id - " + id + " does not exist in the database")));
         return result.get();
     }
 

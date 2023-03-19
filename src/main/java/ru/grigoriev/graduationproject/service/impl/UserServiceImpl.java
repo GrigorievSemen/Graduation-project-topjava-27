@@ -16,6 +16,7 @@ import ru.grigoriev.graduationproject.model.User;
 import ru.grigoriev.graduationproject.repository.UserRepository;
 import ru.grigoriev.graduationproject.security.jwt.JwtUser;
 import ru.grigoriev.graduationproject.service.UserService;
+import ru.grigoriev.graduationproject.util.DB.DB;
 import ru.grigoriev.graduationproject.util.UserUtil;
 import ru.grigoriev.graduationproject.web.request.delete.UserDeleteRequest;
 import ru.grigoriev.graduationproject.web.request.update.UserUpdateRequest;
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final UserMapper userMapper;
     private final AuthenticationManager authenticationManager;
+    private final DB db;
     private final int FLAG_FOR_CHECK_BY_ID = 0;
     private final int FLAG_FOR_CHECK_BY_NAME = 1;
     private final int FLAG_FOR_CHECK_ADMIN_OR_NO = 2;
@@ -74,10 +76,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto findBiId(Integer id) {
         checkPossibilities(id, FLAG_FOR_CHECK_BY_ID);
-        Optional<User> user = Optional.ofNullable(repository.findById(id)
-                .orElseThrow(() ->
-                        new NotFoundException("User does not exist in the database")));
-        UserDto result = userMapper.toUserDto(user.get());
+        User user = db.getUserById(id);
+        UserDto result = userMapper.toUserDto(user);
         log.info("IN findBiId -> user: {} found by id: {}", user, id);
         return result;
     }

@@ -12,6 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.util.NestedServletException;
 import ru.grigoriev.graduationproject.AbstractControllerTest;
 import ru.grigoriev.graduationproject.model.Dish;
+import ru.grigoriev.graduationproject.model.Restaurant;
 import ru.grigoriev.graduationproject.web.constant.Constant;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -31,8 +32,8 @@ import static ru.grigoriev.graduationproject.util.MockSecurity.addMockToken;
 @AutoConfigureWebTestClient
 @AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles(value = "test")
-public class DishRestControllerTest extends AbstractControllerTest {
-    private final String path = Constant.VERSION_URL + "/admin/dish";
+public class RestaurantRestControllerTest extends AbstractControllerTest {
+    private final String path = Constant.VERSION_URL + "/admin/restaurants";
 
     @BeforeEach
     public void addToken() {
@@ -41,61 +42,61 @@ public class DishRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testCreateDishReturnsOk() throws Exception {
-        Dish createDish = getNewDish();
+        Restaurant createRestaurant = getNewRestaurant();
 
         perform(post(path + "/save")
-                .content(mapper().writeValueAsString(createDish))
+                .content(mapper().writeValueAsString(createRestaurant))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(NEW_DISH_ID)))
-                .andExpect(jsonPath("$.name", equalTo(getNewDish().getName())));
+                .andExpect(jsonPath("$.id", equalTo(NEW_RESTAURANT_ID)))
+                .andExpect(jsonPath("$.name", equalTo(getNewRestaurant().getName())));
 
-        perform(get(path + "/" + NEW_DISH_ID)
+        perform(get(path + "/" + NEW_RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(jsonPath("$.id", equalTo(NEW_DISH_ID)))
-                .andExpect(jsonPath("$.name", equalTo(getNewDish().getName())));
+                .andExpect(jsonPath("$.id", equalTo(NEW_RESTAURANT_ID)))
+                .andExpect(jsonPath("$.name", equalTo(getNewRestaurant().getName())));
     }
 
     @Test
     void testCreateExceptionUnique() {
-        Dish createDish = getDuplicateDish();
+        Restaurant createRestaurant = getDuplicateRestaurant();
 
         assertThrows(NestedServletException.class,
                 () -> perform(post(path + "/save")
-                        .content(mapper().writeValueAsString(createDish))
+                        .content(mapper().writeValueAsString(createRestaurant))
                         .contentType(MediaType.APPLICATION_JSON))
                         .andDo(print()));
     }
 
     @Test
     void testGetDishByIdReturnsOk() throws Exception {
-        perform(get(path + "/" + DISH.getId()))
+        perform(get(path + "/" + RESTAURANT.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(DISH.getId())))
-                .andExpect(jsonPath("$.name", equalTo(DISH.getName())));
+                .andExpect(jsonPath("$.id", equalTo(RESTAURANT.getId())))
+                .andExpect(jsonPath("$.name", equalTo(RESTAURANT.getName())));
     }
 
     @Test
     void testGetDishByNameReturnsOk() throws Exception {
-        perform(get(path + "/" + "?name=" + DISH.getName()))
+        perform(get(path + "/" + "?name=" + RESTAURANT.getName()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(DISH.getId())))
-                .andExpect(jsonPath("$.name", equalTo(DISH.getName())));
+                .andExpect(jsonPath("$.id", equalTo(RESTAURANT.getId())))
+                .andExpect(jsonPath("$.name", equalTo(RESTAURANT.getName())));
     }
 
     @Test
     void testGetDishNotFound() {
 
         NestedServletException exception = assertThrows(NestedServletException.class, () ->
-                perform(get(path + "/" + DISH_ID_NOT_FOUND))
+                perform(get(path + "/" + RESTAURANT_ID_NOT_FOUND))
                         .andDo(print()));
 
-        assertThat(exception.getCause().getMessage(), equalTo("Dish with id - " + DISH_ID_NOT_FOUND + "  does not exist in the database"));
+        assertThat(exception.getCause().getMessage(), equalTo("Restaurant with id - " + RESTAURANT_ID_NOT_FOUND + " does not exist in the database"));
     }
 
     @Test
@@ -103,32 +104,32 @@ public class DishRestControllerTest extends AbstractControllerTest {
         perform(get(path + "/all" ))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(DISH_DTO_MATCHER.contentJson(ALL_DISH_DTO));
+                .andExpect(RESTAURANT_DTO_MATCHER.contentJson(ALL_RESTAURANT_DTO));
     }
 
     @Test
     void testUpdateUserReturnsOk() throws Exception {
 
         perform(post(path + "/update" )
-                .content(mapper().writeValueAsString(DISH_UPDATE_REQUEST))
+                .content(mapper().writeValueAsString(RESTAURANT_UPDATE_REQUEST))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(DISH.getId())))
-                .andExpect(jsonPath("$.name", equalTo(DISH_UPDATE_REQUEST.getNew_name())));
+                .andExpect(jsonPath("$.id", equalTo(RESTAURANT.getId())))
+                .andExpect(jsonPath("$.name", equalTo(RESTAURANT_UPDATE_REQUEST.getNew_name())));
     }
 
     @Test
     void testDeleteDishReturnsOk() throws Exception {
 
-        perform(post(path + "/delete/" + DISH.getId())
+        perform(post(path + "/delete/" + RESTAURANT.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print());
 
         NestedServletException exception = assertThrows(NestedServletException.class, () ->
-                perform(get(path + "/" + DISH.getId()))
+                perform(get(path + "/" + RESTAURANT.getId()))
                         .andDo(print()));
 
-        assertThat(exception.getCause().getMessage(), equalTo("Dish with id - " + DISH.getId() + "  does not exist in the database"));
+        assertThat(exception.getCause().getMessage(), equalTo("Restaurant with id - " + RESTAURANT.getId() + " does not exist in the database"));
     }
 }

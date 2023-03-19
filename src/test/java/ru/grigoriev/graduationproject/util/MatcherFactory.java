@@ -1,4 +1,4 @@
-package ru.grigoriev.graduationproject.web;
+package ru.grigoriev.graduationproject.util;
 
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
