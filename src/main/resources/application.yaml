@@ -15,6 +15,7 @@ spring:
         format_sql: true
         #https://question-it.com/questions/11967366/kak-zaregistrirovat-nestandartnye-funktsii-sql-vruchnuju-v-prilozhenii-spring-boot
         metadata_builder_contributor: ru.grigoriev.graduationproject.util.DB.RegisterFunction
+        enable_lazy_load_no_trans: true
 
   datasource:
     driver-class-name: org.h2.Driver

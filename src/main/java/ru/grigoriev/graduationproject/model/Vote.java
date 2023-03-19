@@ -1,9 +1,8 @@
 package ru.grigoriev.graduationproject.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -13,8 +12,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Table(name = "vote", indexes = @Index(columnList = "user_id"))
 public class Vote extends AbstractBaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)

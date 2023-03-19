@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.util.NestedServletException;
 import ru.grigoriev.graduationproject.AbstractControllerTest;
-import ru.grigoriev.graduationproject.model.Dish;
 import ru.grigoriev.graduationproject.model.Restaurant;
 import ru.grigoriev.graduationproject.web.constant.Constant;
 
@@ -101,7 +100,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testGetAllDishReturnsOk() throws Exception {
-        perform(get(path + "/all" ))
+        perform(get(path + "/all"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(RESTAURANT_DTO_MATCHER.contentJson(ALL_RESTAURANT_DTO));
@@ -110,7 +109,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
     @Test
     void testUpdateUserReturnsOk() throws Exception {
 
-        perform(post(path + "/update" )
+        perform(post(path + "/update")
                 .content(mapper().writeValueAsString(RESTAURANT_UPDATE_REQUEST))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

@@ -1,24 +1,27 @@
 package ru.grigoriev.graduationproject.web.request.menu;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class MenuCreateRequest {
-    @NotBlank(message = "Номер поля restaurant_id не может быть пустым")
-    private int restaurant_id;
+    @NotBlank(message = "restaurantId field number cannot be empty")
+    private int restaurantId;
 
-    @NotBlank(message = "Номер поля dish_id не может быть пустым")
-    private int dish_id;
+    @NotBlank(message = "dishId field number cannot be empty")
+    private int dishId;
 
-    @NotBlank(message = "Номер поля price не может быть пустым")
+    @NotBlank(message = "price field number cannot be empty")
     private double price;
 
-    @NotBlank(message = "Номер поля day_menu не может быть пустым")
-    private String day_menu;
+    @NotBlank(message = "dayMenu field number cannot be empty")
+    private LocalDate dayMenu;
 }

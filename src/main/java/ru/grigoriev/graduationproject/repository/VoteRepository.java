@@ -27,7 +27,7 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
             " FROM MENU m " +
             " JOIN restaurant r on r.id=m.restaurant_id" +
             " JOIN dish d on d.id=m.dish_id" +
-            " WHERE CAST(m.dat AS DATE) = CURDATE()" +
+            " WHERE CAST(m.day_menu AS DATE) = CURDATE()" +
             " GROUP BY r.name", nativeQuery = true)
     List<AllRestaurantWithVote> findAllRestaurantWithVote();
 }

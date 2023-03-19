@@ -20,12 +20,11 @@ import ru.grigoriev.graduationproject.repository.DishRepository;
 import ru.grigoriev.graduationproject.repository.RestaurantRepository;
 import ru.grigoriev.graduationproject.security.jwt.JwtTokenProvider;
 import ru.grigoriev.graduationproject.service.AuthUserService;
+import ru.grigoriev.graduationproject.service.MenuService;
 import ru.grigoriev.graduationproject.service.UserService;
+import ru.grigoriev.graduationproject.service.VoteService;
 import ru.grigoriev.graduationproject.util.DB.DB;
-import ru.grigoriev.graduationproject.web.AuthRestController;
-import ru.grigoriev.graduationproject.web.DishRestController;
-import ru.grigoriev.graduationproject.web.RestaurantRestController;
-import ru.grigoriev.graduationproject.web.UserRestController;
+import ru.grigoriev.graduationproject.web.*;
 
 import javax.annotation.PostConstruct;
 
@@ -57,6 +56,10 @@ public abstract class AbstractControllerTest {
     @Autowired
     private UserService userService;
     @Autowired
+    private MenuService menuService;
+    @Autowired
+    private VoteService service;
+    @Autowired
     private UserMapper userMapper;
     @Autowired
     private DishMapper dishMapper;
@@ -76,7 +79,9 @@ public abstract class AbstractControllerTest {
         mockMvc = MockMvcBuilders
                 .standaloneSetup(new AuthRestController(authenticationManager, jwtTokenProvider, authUserService)
                         , new UserRestController(userService, userMapper), new DishRestController(dishRepository, dishMapper, db)
-                        , new RestaurantRestController(restaurantRepository,restaurantMapper,db)
+                        , new RestaurantRestController(restaurantRepository, restaurantMapper, db)
+                        , new MenuRestController(menuService)
+                        , new VoteRestController(service)
                 )
                 .addFilter(CHARACTER_ENCODING_FILTER)
                 .build();

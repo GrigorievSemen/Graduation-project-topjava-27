@@ -100,7 +100,7 @@ public class DishRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testGetAllDishReturnsOk() throws Exception {
-        perform(get(path + "/all" ))
+        perform(get(path + "/all"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(DISH_DTO_MATCHER.contentJson(ALL_DISH_DTO));
@@ -109,7 +109,7 @@ public class DishRestControllerTest extends AbstractControllerTest {
     @Test
     void testUpdateUserReturnsOk() throws Exception {
 
-        perform(post(path + "/update" )
+        perform(post(path + "/update")
                 .content(mapper().writeValueAsString(DISH_UPDATE_REQUEST))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

@@ -19,13 +19,17 @@ public abstract class MenuMapper {
     protected DishRepository dishRepository;
     @Autowired
     protected RestaurantRepository restaurantRepository;
+    @Autowired
+    RestaurantMapper restaurantMapper;
+    @Autowired
+    DishMapper dishMapper;
 
-    @Mapping(target = "restaurant", expression = "java(restaurantRepository.findById(menu.getRestaurant().getId()).orElseThrow(javax.persistence.EntityNotFoundException::new))")
-    @Mapping(target = "dish", expression = "java(dishRepository.findById(menu.getDish().getId()).orElseThrow(javax.persistence.EntityNotFoundException::new))")
+    @Mapping(target = "restaurant", expression = "java(restaurantMapper.toDto(restaurantRepository.findById(menu.getRestaurant().getId()).orElseThrow(javax.persistence.EntityNotFoundException::new)))")
+    @Mapping(target = "dish", expression = "java(dishMapper.toDto(dishRepository.findById(menu.getDish().getId()).orElseThrow(javax.persistence.EntityNotFoundException::new)))")
     public abstract MenuDto toDto(Menu menu);
 
-    @Mapping(target = "restaurant", expression = "java(restaurantRepository.findById(menuCreateRequest.getRestaurant_id()).orElseThrow(javax.persistence.EntityNotFoundException::new))")
-    @Mapping(target = "dish", expression = "java(dishRepository.findById(menuCreateRequest.getDish_id()).orElseThrow(javax.persistence.EntityNotFoundException::new))")
+    @Mapping(target = "restaurant", expression = "java(restaurantRepository.findById(menuCreateRequest.getRestaurantId()).orElseThrow(javax.persistence.EntityNotFoundException::new))")
+    @Mapping(target = "dish", expression = "java(dishRepository.findById(menuCreateRequest.getDishId()).orElseThrow(javax.persistence.EntityNotFoundException::new))")
     public abstract Menu toMenu(MenuCreateRequest menuCreateRequest);
 
     public abstract List<MenuDto> toDtoList(List<Menu> menuList);

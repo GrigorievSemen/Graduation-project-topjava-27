@@ -1,26 +1,20 @@
 package ru.grigoriev.graduationproject.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.grigoriev.graduationproject.model.Dish;
-import ru.grigoriev.graduationproject.model.Restaurant;
+
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class MenuDto {
     private int id;
-    private Restaurant restaurant;
-    private Dish dish;
+    private RestaurantDto restaurant;
+    private DishDto dish;
     private double price;
-    private String dat;
-
-    public String getRestaurant() {
-        return "id = " + restaurant.getId() + ", name = " + restaurant.getName();
-    }
-
-    public String getDish() {
-        return "id = " + dish.getId() + ", name = " + dish.getName();
-    }
+    private LocalDate dayMenu;
 }

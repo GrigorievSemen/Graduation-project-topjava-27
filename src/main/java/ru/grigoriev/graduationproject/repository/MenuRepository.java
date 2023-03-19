@@ -11,9 +11,9 @@ import java.util.List;
 
 public interface MenuRepository extends JpaRepository<Menu, Integer> {
 
-    List<Menu> findAllByRestaurant_IdAndDat(int id, LocalDate date);
+    List<Menu> findAllByRestaurantIdAndDayMenu(int id, LocalDate date);
 
-    List<Menu> findAllByDatOrderByRestaurantIdAsc(LocalDate date);
+    List<Menu> findAllByDayMenuOrderByRestaurantIdAsc(LocalDate date);
 
     int deleteByRestaurantId(int id);
 

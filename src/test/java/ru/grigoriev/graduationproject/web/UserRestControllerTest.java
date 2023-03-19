@@ -68,7 +68,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
                 perform(get(path + "/" + USER_ID_NOT_FOUND))
                         .andDo(print()));
 
-        assertThat(exception.getCause().getMessage(), equalTo("User with id - " + USER_ID_NOT_FOUND + "does not exist in the database"));
+        assertThat(exception.getCause().getMessage(), equalTo("User with id - " + USER_ID_NOT_FOUND + " does not exist in the database"));
     }
 
     @Test

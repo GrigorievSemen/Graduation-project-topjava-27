@@ -67,25 +67,23 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuDto> getAll(LocalDate date) {
-        List<Menu> result = menuRepository.findAllByDatOrderByRestaurantIdAsc(date);
+        List<Menu> result = menuRepository.findAllByDayMenuOrderByRestaurantIdAsc(date);
         log.info("IN getAll -> {} menu found", result.size());
         return mapper.toDtoList(result);
     }
 
     @Override
     public List<MenuDto> findMenuByRestaurantId(int id, LocalDate date) {
-        List<Menu> result = menuRepository.findAllByRestaurant_IdAndDat(id, date);
+        List<Menu> result = menuRepository.findAllByRestaurantIdAndDayMenu(id, date);
         log.info("IN findMenuByRestaurantId -> menu: {} found by restaurant's id: {}", result, id);
         return mapper.toDtoList(result);
     }
 
     @Override
     public MenuDto findBiId(Integer id) {
-        Optional<Menu> result = Optional.ofNullable(menuRepository.findById(id)
-                .orElseThrow(() ->
-                        new NotFoundException("Menu does not exist in the database")));
+        Menu result = getMenuById(id);
         log.info("IN findBiId -> menu: {} found by id: {}", result, id);
-        return mapper.toDto(result.get());
+        return mapper.toDto(result);
     }
 
     @Transactional
@@ -111,7 +109,7 @@ public class MenuServiceImpl implements MenuService {
     private Menu getMenuById(int id) {
         Optional<Menu> result = Optional.ofNullable(menuRepository.findById(id)
                 .orElseThrow(() ->
-                        new NotFoundException("Menu with id = " + id + " does not exist in the database")));
+                        new NotFoundException("Menu with id - " + id + " does not exist in the database")));
         return result.get();
     }
 }

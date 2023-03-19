@@ -1,9 +1,8 @@
 package ru.grigoriev.graduationproject.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,16 +11,13 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@Data
+@SuperBuilder
 @Table(name = "menu", indexes = @Index(columnList = "restaurant_id"))
 public class Menu extends AbstractBaseEntity {
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @JoinColumn(name = "restaurant_id", nullable = false)
     @ManyToOne(fetch = FetchType.EAGER)
@@ -38,12 +34,8 @@ public class Menu extends AbstractBaseEntity {
     @Min(value = 1, message = "Price should be over 1")
     private double price;
 
-    @Column(name = "dat", columnDefinition = "timestamp default now()", nullable = false, updatable = false)
+    @Column(name = "day_menu", columnDefinition = "timestamp default now()", nullable = false, updatable = false)
     @NotNull
     @CreatedDate
-    private LocalDate dat;
-
-    public String getDat() {
-        return this.dat.format(formatter);
-    }
+    private LocalDate dayMenu;
 }

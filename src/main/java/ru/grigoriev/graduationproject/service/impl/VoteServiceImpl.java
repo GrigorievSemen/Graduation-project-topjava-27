@@ -67,7 +67,7 @@ public class VoteServiceImpl implements VoteService {
         result.forEach(v -> {
             sb.append("Restaurant id = ").append(v.getId()).append(". ")
                     .append("Menu: ").append(v.getDish()).append(". ")
-                    .append("Votes = ").append(v.getVote()).append(". ")
+                    .append("Votes = ").append(v.getVote()).append(".")
                     .append("\n");
         });
         log.info("IN getAllRestaurantWithMenuAndVotes -> {} restaurant found", sb);
