@@ -29,17 +29,6 @@ public class User extends AbstractNamedEntity {
         this.password = password;
     }
 
-//
-//    public User(Integer id, String name, String email, String password, boolean enabled, Collection<Role> roles) {
-//        this.id = id;
-//        this.name = name;
-//        this.email = email;
-//        this.password = password;
-//        this.enabled = enabled;
-//        setRoles(roles);
-//        this.status = Status.ACTIVE;
-//    }
-
     @NotBlank(message = "Email cannot be empty")
     @Column(name = "email", nullable = false, unique = true)
     @Email

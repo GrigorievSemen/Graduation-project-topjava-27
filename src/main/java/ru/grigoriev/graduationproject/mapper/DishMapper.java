@@ -16,6 +16,4 @@ public interface DishMapper {
     DishDto toDto(Dish dish);
 
     List<DishDto> toDtoList(List<Dish> dishList);
-
-    Dish toDish(DishDto dto);
 }

@@ -16,6 +16,4 @@ public interface RestaurantMapper {
     RestaurantDto toDto(Restaurant restaurant);
 
     List<RestaurantDto> toDtoList(List<Restaurant> restaurantList);
-
-    Restaurant toRestaurant(RestaurantDto restaurantDto);
 }
