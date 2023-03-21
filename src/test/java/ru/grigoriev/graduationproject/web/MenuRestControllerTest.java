@@ -101,7 +101,6 @@ public class MenuRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testUpdateMenuReturnsOk() throws Exception {
-
         perform(post(path + "/update")
                 .content(mapper().writeValueAsString(List.of(MENU_UPDATE_REQUEST)))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -114,12 +113,11 @@ public class MenuRestControllerTest extends AbstractControllerTest {
                 .andExpect(jsonPath("$.id", equalTo(MENU_ID)))
                 .andExpect(MENU_DTO_MATCHER.contentJson(MENU_DTO_UPDATE));
 
-        assertEquals(MENU_ALL_RESTAURANT_AFTER_UPDATE, voteService.getAllRestaurantWithMenuAndVotes());
+        assertEquals(MENU_ALL_RESTAURANTS_AFTER_UPDATE_MENU_AND_VOTES, voteService.getAllRestaurantWithMenuAndVotes());
     }
 
     @Test
     void testDeleteMenuReturnsOk() throws Exception {
-
         perform(post(path + "delete/" + MENU_ID)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -134,7 +132,6 @@ public class MenuRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testDeleteMenuByRestaurantReturnsOk() throws Exception {
-
         perform(post(path + "delete_by_restaurant/" + RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

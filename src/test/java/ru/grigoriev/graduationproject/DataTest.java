@@ -30,6 +30,8 @@ public class DataTest {
 
     public static final User USER = User.builder().id(2).name("User1").email("user1@yandex.com").password("test1").enabled(true)
             .status(Status.ACTIVE).roles(Collections.singleton(Role.ROLE_USER)).build();
+    public static final User USER_FOR_UPDATE_VOTE = User.builder().id(3).name("User2").email("user2@yandex.com").password("test2").enabled(true)
+            .status(Status.ACTIVE).roles(Collections.singleton(Role.ROLE_USER)).build();
     public static final User ADMIN = User.builder().id(1).name("Admin").email("admin@yandex.com").password("admin").enabled(true)
             .status(Status.ACTIVE).roles(Collections.singleton(Role.ROLE_ADMIN)).build();
     public static final List<UserDto> ALL_USER_DTO = List.of(UserDto.builder().id(1).name("Admin").email("admin@yandex.com")
@@ -135,10 +137,24 @@ public class DataTest {
             MenuDto.builder().restaurant(RestaurantDto.builder().name("Friends").id(5).build())
                     .dish(DishDto.builder().name("Coffee").id(8).build()).price(140).dayMenu(LocalDate.now()).build());
     public static final MenuUpdateRequest MENU_UPDATE_REQUEST = MenuUpdateRequest.builder().id(1).restaurant_id(1).dish_id(1).price(300).build();
-    public static final String MENU_ALL_RESTAURANT_AFTER_UPDATE = """
+    public static final String MENU_ALL_RESTAURANTS_AFTER_UPDATE_MENU_AND_VOTES = """
             Restaurant id = 1. Menu: Chicken = 300.0, Salad = 159.99, Coffee = 100.0. Votes = 0.
             Restaurant id = 3. Menu: Potato = 240.99, Pasta = 365.0, Juice = 150.0. Votes = 1.
             Restaurant id = 2. Menu: Potato = 160.0, Salad = 140.5, Tea = 50.0, Coffee = 120.0. Votes = 0.
+            Restaurant id = 4. Menu: Pasta = 299.5, Tea = 70.0. Votes = 0.
+            Restaurant id = 5. Menu: Chicken = 180.0, Salad = 175.0, Potato = 199.99, Juice = 90.0, Coffee = 140.0. Votes = 0.
+            """;
+    public static final String MENU_ALL_RESTAURANTS_AND_VOTES = """
+            Restaurant id = 1. Menu: Chicken = 200.0, Salad = 159.99, Coffee = 100.0. Votes = 1.
+            Restaurant id = 3. Menu: Potato = 240.99, Pasta = 365.0, Juice = 150.0. Votes = 1.
+            Restaurant id = 2. Menu: Potato = 160.0, Salad = 140.5, Tea = 50.0, Coffee = 120.0. Votes = 0.
+            Restaurant id = 4. Menu: Pasta = 299.5, Tea = 70.0. Votes = 0.
+            Restaurant id = 5. Menu: Chicken = 180.0, Salad = 175.0, Potato = 199.99, Juice = 90.0, Coffee = 140.0. Votes = 0.
+            """;
+    public static final String MENU_ALL_RESTAURANTS_AND_VOTES_AFTER_UPDATE_VOTE = """
+            Restaurant id = 1. Menu: Chicken = 200.0, Salad = 159.99, Coffee = 100.0. Votes = 1.
+            Restaurant id = 3. Menu: Potato = 240.99, Pasta = 365.0, Juice = 150.0. Votes = 0.
+            Restaurant id = 2. Menu: Potato = 160.0, Salad = 140.5, Tea = 50.0, Coffee = 120.0. Votes = 1.
             Restaurant id = 4. Menu: Pasta = 299.5, Tea = 70.0. Votes = 0.
             Restaurant id = 5. Menu: Chicken = 180.0, Salad = 175.0, Potato = 199.99, Juice = 90.0, Coffee = 140.0. Votes = 0.
             """;
@@ -155,6 +171,10 @@ public class DataTest {
     public static final int MENU_ID_NOT_FOUND = 18;
     public static final String MENU_REQUEST_PARAMS_BY_RESTAURANT = "?id=1&date=" + LocalDate.now();
     public static final String MENU_REQUEST_PARAMS_ALL = "?date=" + LocalDate.now();
+    public static final int VOTE_MENU_RESTAURANT = 1;
+    public static final int VOTE_MENU_RESTAURANT_FOR_UPDATE = 2;
+    public static final String RESTAURANT_NAME = "By sea";
+    public static final String RESTAURANT_NAME_FOR_UPDATE = "Fairy tale";
 
     public static User getNewUser() {
         return new User("User4", "user4@yandex.com", "test4");

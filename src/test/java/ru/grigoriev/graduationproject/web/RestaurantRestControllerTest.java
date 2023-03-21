@@ -90,7 +90,6 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testGetDishNotFound() {
-
         NestedServletException exception = assertThrows(NestedServletException.class, () ->
                 perform(get(path + "/" + RESTAURANT_ID_NOT_FOUND))
                         .andDo(print()));
@@ -108,7 +107,6 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testUpdateUserReturnsOk() throws Exception {
-
         perform(post(path + "/update")
                 .content(mapper().writeValueAsString(RESTAURANT_UPDATE_REQUEST))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -120,7 +118,6 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testDeleteDishReturnsOk() throws Exception {
-
         perform(post(path + "/delete/" + RESTAURANT.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print());

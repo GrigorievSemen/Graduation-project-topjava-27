@@ -44,9 +44,9 @@ VALUES ('By sea'),      -- 1
        ('Friday 13th'), -- 4
        ('Friends'); -- 5
 
-INSERT INTO vote (user_id, restaurant_id)
-VALUES (2, 1),
-       (3, 3);
+INSERT INTO vote (user_id, restaurant_id, created_at)
+VALUES (2, 1, '2023-03-21 19:00:00'),
+       (3, 3, '2023-03-21 10:00:00');
 
 INSERT INTO menu(restaurant_id, dish_id, price, day_menu)
 VALUES (1, 1, 200, now()),

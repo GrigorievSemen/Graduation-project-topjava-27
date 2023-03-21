@@ -41,7 +41,7 @@ public class VoteServiceImpl implements VoteService {
                 result = voteMapper.toDto(voteRepository.save(new Vote(db.getUserById(userAuth.getId()), db.getRestaurantById(id))));
                 log.info("IN create -> vote: {} successfully save", result);
             } else {
-                throw new VotingErrorException("You have already voted today, you can update the data until 11 days (/vote/update).");
+                throw new VotingErrorException("You have already voted today, you can update the data until 11 days (/votes/update).");
             }
         }
 
