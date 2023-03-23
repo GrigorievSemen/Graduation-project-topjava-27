@@ -45,8 +45,14 @@ VALUES ('By sea'),      -- 1
        ('Friends'); -- 5
 
 INSERT INTO vote (user_id, restaurant_id, created_at)
-VALUES (2, 1, '2023-03-21 19:00:00'),
-       (3, 3, '2023-03-21 10:00:00');
+VALUES (2, 1, (CURDATE())),
+       (3, 3, CURDATE());
+
+UPDATE VOTE SET created_at = created_at  + INTERVAL '18' HOUR
+WHERE id = 1;
+
+UPDATE VOTE SET created_at = created_at  + INTERVAL '8' HOUR
+WHERE id = 2;
 
 INSERT INTO menu(restaurant_id, dish_id, price, day_menu)
 VALUES (1, 1, 200, now()),

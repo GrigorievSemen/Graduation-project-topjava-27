@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ru.grigoriev</groupId>
-    <artifactId>graduation-project</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>graduation-project</name>
+    <artifactId>project</artifactId>
+    <version>top-java-27</version>
+    <name>project</name>
     <description>Graduation project topjava-27</description>
     <properties>
         <java.version>17</java.version>
